@@ -1,0 +1,13 @@
+[alias]
+    l = log --graph --pretty=format':%C(yellow)%h%Cblue%d%Creset %s %C(white) %an, %ar%Creset'
+[user]
+    email = di@omise.co
+    name = zdk
+[color]
+    ui = true
+[core]
+    editor = /usr/local/bin/vim
+[push]
+    default = simple
+[github]
+    user = zdk
