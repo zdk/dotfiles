@@ -45,11 +45,11 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ruby perl tmux vi-mode)
+plugins=(git ruby perl tmux)
 
 # User configuration
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"
+export PATH="$HOME/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -58,11 +58,12 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
+#if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
-# else
+#   alias e=$EDITOR
+#else
 #   export EDITOR='mvim'
-# fi
+#fi
 export EDITOR='vim'
 
 # Compilation flags
@@ -76,6 +77,14 @@ export EDITOR='vim'
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Aliases
+alias e=$EDITOR
+alias zshconfig="e ~/.zshrc"
+alias ohmyzsh="e ~/.oh-my-zsh"
+
+eval "$(rbenv init -)"
+
+#AWS CLI
+export EXTRA="$HOME/Programs"
+source $EXTRA/aws-cli/bin/aws_zsh_completer.sh
