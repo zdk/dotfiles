@@ -66,6 +66,10 @@ source $ZSH/oh-my-zsh.sh
 #fi
 export EDITOR='vim'
 
+bindkey '^R' history-incremental-search-backward  #ok
+bindkey '^[[1;9D' backward-word
+bindkey '^[[1;9C' forward-word
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
