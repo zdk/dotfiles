@@ -87,8 +87,8 @@ alias e=$EDITOR
 alias zshconfig="e ~/.zshrc"
 alias ohmyzsh="e ~/.oh-my-zsh"
 
-eval "$(rbenv init -)"
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 #AWS CLI
 export EXTRA="$HOME/Programs"
-source $EXTRA/aws-cli/bin/aws_zsh_completer.sh
+#source $EXTRA/aws-cli/bin/aws_zsh_completer.sh

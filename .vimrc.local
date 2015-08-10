@@ -1,8 +1,0 @@
-set encoding=utf-8
-let g:NERDTreeDirArrows=0
-set expandtab
-set tabstop=2 shiftwidth=2 softtabstop=2
-set clipboard=unnamed
-
-map <left> :bprevious<CR>
-map <right> :bnext<CR>
