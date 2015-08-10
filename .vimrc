@@ -17,8 +17,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'Shougo/neocomplete.vim'
-Plugin 'godlygeek/tabular'
 Plugin 'easymotion/vim-easymotion'
+Plugin 'junegunn/vim-easy-align'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -48,6 +48,12 @@ filetype indent on    " Enable filetype-specific indenting
 let g:airline#extensions#tabline#enabled = 1
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
+" vim-easy-align
+vmap <Enter> :EasyAlign
+nmap ga :EasyAlign
+" syntastic
+let g:syntastic_check_on_open = 1
+let g:syntastic_enable_signs  = 1
 
 " see :h vundle for more details or wiki for FAQ
 " non-Plugin stuff after this line
