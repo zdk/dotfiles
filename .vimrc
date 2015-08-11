@@ -10,8 +10,10 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'tpope/vim-fugitive.git'
 Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
+Plugin 'szw/vim-tags'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
@@ -19,6 +21,7 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'moll/vim-node'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -46,6 +49,7 @@ filetype indent on    " Enable filetype-specific indenting
 " Plugin Configure
 " airline
 let g:airline#extensions#tabline#enabled = 1
+set laststatus=2
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
 " vim-easy-align
@@ -54,6 +58,9 @@ nmap ga :EasyAlign
 " syntastic
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs  = 1
+" vim tags
+let g:vim_tags_auto_generate = 1
+nnoremap <leader>. :CtrlPTag<cr>
 
 " see :h vundle for more details or wiki for FAQ
 " non-Plugin stuff after this line
