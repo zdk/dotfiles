@@ -1,0 +1,6 @@
+root = true
+[**.js]
+path=~/.vim/bundle/js-beautify/js/lib/beautify.js
+bin=node
+indent_style = space
+indent_size = 2

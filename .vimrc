@@ -21,6 +21,8 @@ Plugin 'vim-ruby/vim-ruby'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'maksimr/vim-jsbeautify'
+Plugin 'einars/js-beautify'
 Plugin 'moll/vim-node'
 
 " All of your Plugins must be added before the following line
@@ -61,6 +63,15 @@ let g:syntastic_enable_signs  = 1
 " vim tags
 let g:vim_tags_auto_generate = 1
 nnoremap <leader>. :CtrlPTag<cr>
+" vim-jsbeautify
+map <c-f> :call JsBeautify()<cr>
+autocmd FileType javascript noremap <buffer>  <c-f> :call JsBeautify()<cr>
+autocmd FileType html noremap <buffer> <c-f> :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <c-f> :call CSSBeautify()<cr>
+" vim-jsbeautify visualmode
+autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 
 " see :h vundle for more details or wiki for FAQ
 " non-Plugin stuff after this line
