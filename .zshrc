@@ -10,8 +10,12 @@ bindkey '^[[1;9C' forward-word
 # Functions
 ###########
 
-function whatismyip {
+whatismyip() {
   curl -s "http://v4.ipv6-test.com/api/myip.php" && echo
+}
+
+bk() {
+	cp -a "$1" "${1}_$(date "+%Y-%m-%dT%H:%M:%S%z")"
 }
 
 source ~/.zshrc.local
