@@ -18,4 +18,8 @@ bk() {
 	cp -a "$1" "${1}_$(date "+%Y-%m-%dT%H:%M:%S%z")"
 }
 
+cpucores() {
+  sysctl -n hw.ncpu
+}
+
 source ~/.zshrc.local
