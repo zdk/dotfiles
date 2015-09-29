@@ -6,6 +6,9 @@ bindkey '^R' history-incremental-search-backward  #ok
 bindkey '^[[1;9D' backward-word
 bindkey '^[[1;9C' forward-word
 
+# Some Aliases
+alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
+
 ###########
 # Functions
 ###########
@@ -21,5 +24,6 @@ bk() {
 cpucores() {
   sysctl -n hw.ncpu
 }
+
 
 source ~/.zshrc.local
