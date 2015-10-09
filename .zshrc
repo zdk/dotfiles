@@ -6,6 +6,10 @@ bindkey '^R' history-incremental-search-backward  #ok
 bindkey '^[[1;9D' backward-word
 bindkey '^[[1;9C' forward-word
 
+if [ -f $(which npm) ]; then
+  eval "$(npm completion)"
+fi
+
 # Some Aliases
 alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
 
@@ -24,6 +28,5 @@ bk() {
 cpucores() {
   sysctl -n hw.ncpu
 }
-
 
 source ~/.zshrc.local
