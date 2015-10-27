@@ -6,7 +6,7 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+" call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
@@ -18,11 +18,12 @@ Plugin 'szw/vim-tags'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'vim-ruby/vim-ruby'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'junegunn/vim-easy-align'
-Plugin 'maksimr/vim-jsbeautify'
+" ruby
+Plugin 'vim-ruby/vim-ruby'
+" js
 Plugin 'einars/js-beautify'
 Plugin 'moll/vim-node'
 
