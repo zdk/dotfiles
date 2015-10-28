@@ -94,3 +94,4 @@ autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 " buffer
 map <left> :bprevious<CR>
 map <right> :bnext<CR>
+map <Esc><Esc> :w<CR>
