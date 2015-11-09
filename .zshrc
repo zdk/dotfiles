@@ -17,6 +17,14 @@ alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.or
 # Functions
 ###########
 
+encrypt() {
+  openssl aes-256-cbc -a -salt -in $1 -out $1.enc
+}
+
+decrypt() {
+  openssl aes-256-cbc -d -a -in $1 -out $1.dec
+}
+
 whatismyip() {
   curl -s "http://v4.ipv6-test.com/api/myip.php" && echo
 }
