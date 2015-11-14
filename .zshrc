@@ -37,4 +37,8 @@ cpucores() {
   sysctl -n hw.ncpu
 }
 
+touch_ed() {
+  touch $1 && vim $1
+}
+
 source ~/.zshrc.local
