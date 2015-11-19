@@ -4,7 +4,7 @@ export PATH="$HOME/bin/:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/
 export PATH="$PATH:/usr/local/Cellar/rakudo-star/2015.09/bin/"
 export EDITOR='vim'
 export LANG='en_US.UTF-8'
-export ZSH=$HOME/.oh-my-zsh
+export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="miloshadzic"
 
 if which rbenv &> /dev/null; then
