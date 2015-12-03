@@ -29,8 +29,16 @@ whatismyip() {
   curl -s "http://v4.ipv6-test.com/api/myip.php" && echo
 }
 
+ssh-add-host() {
+  echo -en "\n\nHost $1\n  HostName $2\n  User $3\n IdentityFile $4" >> ~/.ssh/config
+}
+
+ssh-hosts() {
+  awk '$1 ~ /^Host$/ {print $2}' ~/.ssh/config
+}
+
 bk() {
-	cp -a "$1" "${1}_$(date "+%Y-%m-%dT%H:%M:%S%z")"
+  cp -a "$1" "${1}_$(date "+%Y-%m-%dT%H:%M:%S%z")"
 }
 
 cpucores() {
@@ -40,5 +48,10 @@ cpucores() {
 touch_ed() {
   touch $1 && vim $1
 }
+
+if type rbenv > /dev/null; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
 
 source ~/.zshrc.local
