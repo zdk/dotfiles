@@ -95,3 +95,4 @@ autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 map <left> :bprevious<CR>
 map <right> :bnext<CR>
 map <Esc><Esc> :w<CR>
+let g:netrw_liststyle = 3
