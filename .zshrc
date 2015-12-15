@@ -12,6 +12,8 @@ fi
 
 # Some Aliases
 alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
+alias i='/sbin/ifconfig'
+alias cls='clear;ls'
 
 ###########
 # Functions
