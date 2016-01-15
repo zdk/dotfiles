@@ -24,6 +24,7 @@ Plugin 'szw/vim-tags'
 " ruby
 Plugin 'vim-ruby/vim-ruby'
 " js
+Plugin 'maksimr/vim-jsbeautify'
 Plugin 'einars/js-beautify'
 Plugin 'moll/vim-node'
 
