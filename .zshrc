@@ -51,9 +51,14 @@ touch_ed() {
   touch $1 && vim $1
 }
 
+blog_sync() {
+  rsync -rvz -e 'ssh -p 2222' --progress --remove-sent-files _site/. zdk@ssh.blinkenshell.org:/home/zdk/public_html/
+}
+
 if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
 
 source ~/.zshrc.local
+source /usr/local/share/zsh/site-functions
