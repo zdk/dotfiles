@@ -28,7 +28,8 @@ decrypt() {
 }
 
 whatismyip() {
-  curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+  curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'
+  #| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
 
 ssh-add-host() {
