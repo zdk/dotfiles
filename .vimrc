@@ -21,6 +21,7 @@ Plugin 'Shougo/neocomplete.vim'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'szw/vim-tags'
+Plugin 'terryma/vim-multiple-cursors'
 " ruby
 Plugin 'vim-ruby/vim-ruby'
 " js
@@ -67,6 +68,19 @@ set laststatus=2
 
 " neocomplete
 let g:neocomplete#enable_at_startup = 1
+" prevent conflict with multi-cursor
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  if exists(':NeoCompleteLock')==2
+    exe 'NeoCompleteLock'
+  endif
+endfunction
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+  if exists(':NeoCompleteUnlock')==2
+    exe 'NeoCompleteUnlock'
+  endif
+endfunction
 
 " vim-easy-align
 vmap <Enter> :EasyAlign
