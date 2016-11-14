@@ -1,5 +1,5 @@
 # User configuration
-plugins=(git ruby perl tmux)
+plugins=(git ruby perl tmux vagrant)
 source $ZSH/oh-my-zsh.sh
 
 bindkey '^R' history-incremental-search-backward  #ok
@@ -32,16 +32,15 @@ man() {
 }
 
 encrypt() {
-  openssl aes-256-cbc -a -salt -in $1 -out $1.enc
+  openssl aes-256-cbc -a -salt -in $1 -out $2
 }
 
 decrypt() {
-  openssl aes-256-cbc -d -a -in $1 -out $1.dec
+  openssl aes-256-cbc -d -a -in $1 -out $2
 }
 
 whatismyip() {
-  curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'
-  #| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+  curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
 
 ssh-add-host() {
@@ -75,3 +74,11 @@ fi
 
 source ~/.zshrc.local
 source /usr/local/share/zsh/site-functions
+
+if [ -f ~/bin/google-cloud-sdk/path.zsh.inc ]; then
+  source ~/bin/google-cloud-sdk/path.zsh.inc
+fi
+
+if [ -f ~/bin/google-cloud-sdk/completion.zsh.inc ]; then
+  source ~/bin/google-cloud-sdk/completion.zsh.inc
+fi
