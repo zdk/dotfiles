@@ -61,6 +61,7 @@ nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 let g:ctrlp_funky_matchtype = 'path'
+let g:ctrlp_show_hidden=1
 
 " airline
 let g:airline#extensions#tabline#enabled = 1
