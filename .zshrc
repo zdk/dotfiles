@@ -39,6 +39,19 @@ decrypt() {
   openssl aes-256-cbc -d -a -in $1 -out $2
 }
 
+checksum () {
+  if [[ $1 = 'md5' ]]; then
+      md5 $2
+  elif [[ $1 = 'sha1' ]]; then
+      shasum -a 1 $2
+  elif [[ $1 = 'sha256' ]]; then
+      shasum -a 256 $2
+  else
+      print "Unknown type: $1"
+      return 1
+  fi
+}
+
 whatismyip() {
   curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
