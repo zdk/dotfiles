@@ -39,6 +39,14 @@ decrypt() {
   openssl aes-256-cbc -d -a -in $1 -out $2
 }
 
+pg_backup() {
+  pg_dump -Z 4 -h $1 -W -U $2 $3
+}
+
+pg_restore_z() {
+  zcat $4 | psql -h $1 -W -U $2 $3
+}
+
 checksum () {
   if [[ $1 = 'md5' ]]; then
       md5 $2
