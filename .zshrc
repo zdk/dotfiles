@@ -1,14 +1,11 @@
-# User configuration
-plugins=(git ruby perl tmux vagrant)
-source $ZSH/oh-my-zsh.sh
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
 
 bindkey '^R' history-incremental-search-backward  #ok
 bindkey '^[[1;9D' backward-word
 bindkey '^[[1;9C' forward-word
-
-if [ -f $(which npm) ]; then
-  eval "$(npm completion)"
-fi
 
 # Some Aliases
 alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
@@ -93,7 +90,6 @@ if type rbenv > /dev/null; then
   eval "$(rbenv init -)"
 fi
 
-source ~/.zshrc.local
 source /usr/local/share/zsh/site-functions
 
 if [ -f ~/bin/google-cloud-sdk/path.zsh.inc ]; then
