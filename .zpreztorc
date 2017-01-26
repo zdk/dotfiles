@@ -35,14 +35,15 @@ zstyle ':prezto:load' pmodule \
   'prompt' \
   'syntax-highlighting' \
   'history-substring-search' \
-  'git'
+  'git' \
+  'autosuggestions'
 
 #
 # Deer
 #
 
 # Set key bindings
-# zstyle ':prezto:module:deer' key-bindings '^k'
+zstyle ':prezto:module:deer' key-bindings '^k'
 
 #
 # Autosuggestions
