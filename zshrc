@@ -125,3 +125,5 @@ if [[ -s "$HOME/.zshrc.local" ]]; then
 fi
 
 export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
+
+export MYVIMRC=~/.vimrc
