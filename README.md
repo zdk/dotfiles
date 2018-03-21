@@ -10,4 +10,4 @@ Download or git clone this repo onto your laptop, e.g.:
 
 And link any dotfile you'd like, for example, .vimrc:
 
-    ln -sf dotfiles/.vimrc ~/.
+    ln -sf dotfiles/vimrc ~/.vimrc
