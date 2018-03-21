@@ -1,53 +1,248 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Let vim break compatibility with vi
+set nocompatible
 
-" mkdir -p ~/.vim/bundle/ && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim && vim +PluginInstall +qall
-" Set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" Alternatively, pass a path where Vundle should install plugins
-" call vundle#begin('~/some/path/here')
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" ============================================================================
+"     Plug INIT
+" ============================================================================
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" To ignore plugin indent changes, instead use:
-filetype plugin on
-set backspace=2
-set encoding=utf-8                       " UTF-8
-set expandtab                            " Insert space characters whenever the tab key is pressed
-set tabstop=2 shiftwidth=2 softtabstop=2 " Insert 2 spaces for a tab, 2 spaces for indent, cause <Tab> and <BS> to insert and delete 2 spaces
-set clipboard=unnamed
-let mapleader = ","
-syntax on             " Enable syntax highlighting
-filetype on           " Enable filetype detection
-filetype indent on    " Enable filetype-specific indenting
+call plug#begin('~/.vim/plugged')
 
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" Status line
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" ################
-" Plugin Configure
-" ################
+" Code linting
+Plug 'scrooloose/syntastic'
 
-" ####################
-" End Plugin configure
-" ####################
+" Bracket paring
+Plug 'tpope/vim-unimpaired'
 
-" see :h vundle for more details or wiki for FAQ
+" Whitespace highlighting
+Plug 'ntpeters/vim-better-whitespace'
 
-" Custom configure
+" Commentor
+Plug 'scrooloose/nerdcommenter'
 
-" Buffer
+" Syntax
+Plug 'elzr/vim-json', {'for' : 'json'}
+Plug 'fatih/vim-go'
+
+" HTML
+Plug 'mattn/emmet-vim'
+
+" Motion
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-surround'
+Plug 'terryma/vim-multiple-cursors'
+
+" Fuzzy search
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tacahiroy/ctrlp-funky'
+
+call plug#end()
+
+"=============================================================================
+
+" ============================================================================
+"     Base SETTINGS
+" ============================================================================
+let mapleader=","
+filetype off
+filetype plugin indent on
+set ttyfast
+set laststatus=2
+set encoding=utf-8             " Set default encoding to UTF-8
+set autoread                   " Automatically reread changed files without asking me anything
+set autoindent
+set backspace=indent,eol,start " Makes backspace key more powerful.
+set incsearch                  " Shows the match while typing
+set hlsearch                   " Highlight found searches
+set mouse=a                    " Enable mouse mode
+set noerrorbells               " No beeps
+set number                     " Show line numbers
+set showcmd                    " Show me what I'm typing
+set noswapfile                 " Don't use swapfile
+set nobackup                   " Don't create annoying backup files
+set splitright                 " Split vertical windows right to the current windows
+set splitbelow                 " Split horizontal windows below to the current windows
+set autowrite                  " Automatically save before :next, :make etc.
+set hidden
+set fileformats=unix,dos,mac   " Prefer Unix over Windows over OS 9 formats
+set noshowmatch                " Do not show matching brackets by flickering
+set noshowmode                 " We show the mode with airline or lightline
+set ignorecase                 " Search case insensitive...
+set smartcase                  " ... but not it begins with upper case
+set completeopt=menu,menuone
+set nocursorcolumn             " speed up syntax highlighting
+set nocursorline
+set updatetime=300
+set pumheight=10               " Completion window max size
+set conceallevel=2             " Concealed text is completely hidden
+set lazyredraw
+
+if has('mac')
+  set clipboard^=unnamed
+  set clipboard^=unnamedplus
+endif
+
+augroup filetypedetect
+  command! -nargs=* -complete=help Help vertical belowright help <args>
+  autocmd FileType help wincmd L
+  autocmd BufNewFile,BufRead .nginx.conf*,nginx.conf* setf nginx
+  autocmd BufNewFile,BufRead *.hcl setf conf
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+  autocmd BufNewFile,BufRead *.txt setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.md setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.html setlocal noet ts=4 sw=4
+  autocmd BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.sh setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
+augroup END
+
+" ============================================================================
+
+" ============================================================================
+"     Plugins' CONFIG
+" ============================================================================
+
+" vim-airline
+let g:airline_theme='molokai'
+let g:airline#extensions#tabline#enabled = 1
+set laststatus=2
+
+" vim-easy-align
+vmap <Enter> :EasyAlign
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" vim-go
+let g:go_fmt_fail_silently = 1
+let g:go_fmt_command = "goimports"
+let g:go_fmt_options = {
+  \ 'goimports': '-local do/',
+  \ }
+
+let g:go_debug_windows = {
+      \ 'vars':  'leftabove 35vnew',
+      \ 'stack': 'botright 10new',
+\ }
+
+let g:go_sameid_search_enabled = 1
+let g:go_test_prepend_name = 1
+
+" put quickfix window always to the bottom
+augroup quickfix
+    autocmd!
+    autocmd FileType qf wincmd J
+    autocmd FileType qf setlocal wrap
+augroup END
+
+let g:go_list_type = "quickfix"
+
+let g:go_auto_type_info = 0
+let g:go_auto_sameids = 0
+
+let g:go_def_mode = "guru"
+let g:go_echo_command_info = 1
+let g:go_gocode_autobuild = 1
+let g:go_gocode_unimported_packages = 1
+
+let g:go_autodetect_gopath = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_array_whitespace_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_extra_types = 0
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_types = 0
+let g:go_highlight_format_strings = 0
+
+let g:go_modifytags_transform = 'camelcase'
+let g:go_fold_enable = []
+
+nmap <C-g> :GoDecls<cr>
+imap <C-g> <esc>:<C-u>GoDecls<cr>
+
+" run :GoBuild or :GoTestCompile based on the go file
+function! s:build_go_files()
+  let l:file = expand('%')
+  if l:file =~# '^\f\+_test\.go$'
+    call go#test#Test(0, 1)
+  elseif l:file =~# '^\f\+\.go$'
+    call go#cmd#Build(0)
+  endif
+endfunction
+
+augroup go
+  autocmd!
+
+  autocmd FileType go nmap <silent> <Leader>v <Plug>(go-def-vertical)
+  autocmd FileType go nmap <silent> <Leader>s <Plug>(go-def-split)
+  autocmd FileType go nmap <silent> <Leader>d <Plug>(go-def-tab)
+
+  autocmd FileType go nmap <silent> <Leader>x <Plug>(go-doc-vertical)
+
+  autocmd FileType go nmap <silent> <Leader>i <Plug>(go-info)
+  autocmd FileType go nmap <silent> <Leader>l <Plug>(go-metalinter)
+
+  autocmd FileType go nmap <silent> <leader>b :<C-u>call <SID>build_go_files()<CR>
+  autocmd FileType go nmap <silent> <leader>t  <Plug>(go-test)
+  autocmd FileType go nmap <silent> <leader>r  <Plug>(go-run)
+  autocmd FileType go nmap <silent> <leader>e  <Plug>(go-install)
+
+  autocmd FileType go nmap <silent> <Leader>c <Plug>(go-coverage-toggle)
+
+  autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+  autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+  autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+  autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
+augroup END
+
+" syntastic
+let g:syntastic_check_on_open = 1
+let g:syntastic_enable_signs  = 1
+let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
+
+" ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_show_hidden=1
+
+" ctrlp-funky
+let g:ctrlp_funky_matchtype = 'path'
+
+
+" ============================================================================
+
+" ============================================================================
+"     Custom MAPPING
+" ============================================================================
+
+" Remove search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+" Print full path
+map <C-f> :echo expand("%:p")<cr>
+" Navigate through buffer
 map <left> :bprevious<CR>
 map <right> :bnext<CR>
+" Quick save
 map <Esc><Esc> :w<CR>
 
-let g:netrw_liststyle = 3
+" Some useful quickfix shortcuts for quickfix
+map <C-n> :cn<CR>
+map <C-m> :cp<CR>
+nnoremap <leader>a :cclose<CR>
+
+" ctrlp-funky
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
