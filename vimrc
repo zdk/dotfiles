@@ -32,6 +32,8 @@ Plug 'scrooloose/nerdcommenter'
 " Syntax
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'fatih/vim-go'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 
 " HTML
 Plug 'mattn/emmet-vim'
@@ -219,6 +221,8 @@ let g:ctrlp_show_hidden=1
 " ctrlp-funky
 let g:ctrlp_funky_matchtype = 'path'
 
+" vim-jsx
+let g:jsx_pragma_required = 1
 
 " ============================================================================
 
@@ -245,4 +249,5 @@ nnoremap <leader>a :cclose<CR>
 nnoremap <Leader>fu :CtrlPFunky<Cr>
 " narrow the list down with a word under cursor
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-
+" open current file with Chrome
+nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
