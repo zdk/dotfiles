@@ -14,7 +14,7 @@ endif
 call plug#begin('~/.vim/plugged')
 
 " Status line
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Code linting
@@ -33,7 +33,12 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'fatih/vim-go'
 Plug 'pangloss/vim-javascript'
+Plug 'maksimr/vim-jsbeautify'
 Plug 'mxw/vim-jsx'
+Plug 'othree/javascript-libraries-syntax.vim'
+
+" Indent
+Plug 'nathanaelkane/vim-indent-guides'
 
 " HTML
 Plug 'mattn/emmet-vim'
@@ -208,21 +213,30 @@ augroup go
 augroup END
 
 " syntastic
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_enable_signs  = 1
 let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
+let g:syntastic_javascript_checkers = ['eslint']
 
 " ctrlp
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_show_hidden=1
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 " ctrlp-funky
 let g:ctrlp_funky_matchtype = 'path'
 
 " vim-jsx
 let g:jsx_pragma_required = 1
+
+" vim-jsbeautify
+autocmd FileType javascript vnoremap <buffer>  <c-f> :call RangeJsBeautify()<cr>
+autocmd FileType json vnoremap <buffer> <c-f> :call RangeJsonBeautify()<cr>
+autocmd FileType jsx vnoremap <buffer> <c-f> :call RangeJsxBeautify()<cr>
+autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
+autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 
 " ============================================================================
 
@@ -251,3 +265,5 @@ nnoremap <Leader>fu :CtrlPFunky<Cr>
 nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 " open current file with Chrome
 nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
+
+silent! nmap <F6> :SyntasticToggleMode<CR>
