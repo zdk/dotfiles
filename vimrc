@@ -36,6 +36,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'maksimr/vim-jsbeautify'
 Plug 'mxw/vim-jsx'
 Plug 'othree/javascript-libraries-syntax.vim'
+Plug 'tomlion/vim-solidity'
 
 " Indent
 Plug 'nathanaelkane/vim-indent-guides'
@@ -51,6 +52,15 @@ Plug 'terryma/vim-multiple-cursors'
 " Fuzzy search
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
+
+" Completion
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 call plug#end()
 
@@ -111,6 +121,7 @@ augroup filetypedetect
   autocmd BufNewFile,BufRead *.sh setlocal expandtab shiftwidth=2 tabstop=2
   autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
   autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2
 augroup END
 
 " ============================================================================
@@ -217,6 +228,7 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_enable_signs  = 1
 let g:syntastic_go_checkers = ['go', 'golint', 'errcheck']
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_solidity_solc_checker = 1
 
 " ctrlp
 let g:ctrlp_map = '<c-p>'
@@ -237,6 +249,8 @@ autocmd FileType json vnoremap <buffer> <c-f> :call RangeJsonBeautify()<cr>
 autocmd FileType jsx vnoremap <buffer> <c-f> :call RangeJsxBeautify()<cr>
 autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
+
+let g:deoplete#enable_at_startup = 1
 
 " ============================================================================
 

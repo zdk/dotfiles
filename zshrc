@@ -12,6 +12,8 @@ alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.or
 alias i='/sbin/ifconfig'
 alias cls='clear;ls'
 
+alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
+
 ###########
 # Functions
 ###########
@@ -127,3 +129,4 @@ fi
 export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
 
 export MYVIMRC=~/.vimrc
+
