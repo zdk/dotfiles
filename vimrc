@@ -41,6 +41,9 @@ Plug 'tomlion/vim-solidity'
 " Indent
 Plug 'nathanaelkane/vim-indent-guides'
 
+" Mapping
+Plug 'tpope/vim-unimpaired'
+
 " HTML
 Plug 'mattn/emmet-vim'
 
@@ -262,9 +265,6 @@ let g:deoplete#enable_at_startup = 1
 nnoremap <leader><space> :nohlsearch<CR>
 " Print full path
 map <C-f> :echo expand("%:p")<cr>
-" Navigate through buffer
-map <left> :bprevious<CR>
-map <right> :bnext<CR>
 " Quick save
 map <Esc><Esc> :w<CR>
 
