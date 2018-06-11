@@ -33,7 +33,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'elzr/vim-json', {'for' : 'json'}
 Plug 'fatih/vim-go'
 Plug 'pangloss/vim-javascript'
-Plug 'maksimr/vim-jsbeautify'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'mxw/vim-jsx'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'tomlion/vim-solidity'
@@ -122,6 +122,8 @@ augroup filetypedetect
   autocmd BufNewFile,BufRead *.html setlocal noet ts=4 sw=4
   autocmd BufNewFile,BufRead *.vim setlocal expandtab shiftwidth=2 tabstop=2
   autocmd BufNewFile,BufRead *.sh setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.css setlocal expandtab shiftwidth=2 tabstop=2
+  autocmd BufNewFile,BufRead *.scss setlocal expandtab shiftwidth=2 tabstop=2
   autocmd FileType json setlocal expandtab shiftwidth=2 tabstop=2
   autocmd FileType ruby setlocal expandtab shiftwidth=2 tabstop=2
   autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2
