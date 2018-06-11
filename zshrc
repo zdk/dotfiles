@@ -11,6 +11,7 @@ bindkey '^[f' forward-word
 alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
 alias i='/sbin/ifconfig'
 alias cls='clear;ls'
+alias สส='ll'
 
 alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 
@@ -109,16 +110,6 @@ fi
 # Deer
 if [[ -s "$HOME/bin/deer/deer" ]]; then
   source "$HOME/bin/deer/deer"
-fi
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/bin/google-cloud-sdk/path.zsh.inc" ]; then
-  source "$HOME/bin/google-cloud-sdk/path.zsh.inc"
-fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HONME/bin/google-cloud-sdk/completion.zsh.inc" ]; then
-  source "$HOME/bin/google-cloud-sdk/completion.zsh.inc"
 fi
 
 # Source local config
