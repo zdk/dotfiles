@@ -92,6 +92,8 @@ blog_sync() {
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
 
+
+
 if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
@@ -117,7 +119,15 @@ if [[ -s "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
 
-export PATH="/usr/local/opt/qt@5.5/bin:$PATH"
+export PATH="$HOME/bin:/usr/local/opt/qt@5.5/bin:$PATH"
 
 export MYVIMRC=~/.vimrc
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/zdk/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/zdk/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+source ~/.zshrc.local

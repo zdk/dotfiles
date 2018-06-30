@@ -13,6 +13,10 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+" Navigation
+Plug 'tpope/vim-projectionist'
+Plug 'tpope/vim-vinegar'
+
 " Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -57,6 +61,10 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 
 " Completion
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -66,6 +74,9 @@ else
 endif
 
 call plug#end()
+
+" Just for fun
+echom "Yo! >^.^<"
 
 "=============================================================================
 
@@ -134,6 +145,12 @@ augroup END
 " ============================================================================
 "     Plugins' CONFIG
 " ============================================================================
+
+" vim-snippets
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
 
 " vim-airline
 let g:airline_theme='molokai'
@@ -256,6 +273,50 @@ autocmd FileType html vnoremap <buffer> <c-f> :call RangeHtmlBeautify()<cr>
 autocmd FileType css vnoremap <buffer> <c-f> :call RangeCSSBeautify()<cr>
 
 let g:deoplete#enable_at_startup = 1
+
+" vim-projectionist
+let g:projectionist_heuristics = {
+      \   '*': {
+      \     '*.c': {
+      \       'alternate': '{}.h',
+      \       'type': 'source'
+      \     },
+      \     '*.h': {
+      \       'alternate': '{}.c',
+      \       'type': 'header'
+      \     },
+      \
+      \     '*.js': {
+      \       'alternate': [
+      \         '{dirname}/{basename}.test.js',
+      \         '{dirname}/tests/{basename}-test.js'
+      \       ],
+      \       'type': 'source'
+      \     },
+      \     '*.sol': {
+      \       'alternate': [
+      \         '{dirname}/{basename}.test.js',
+      \         '{dirname}/tests/{basename}.test.js'
+      \       ],
+      \       'type': 'source'
+      \     },
+      \     '*.test.js': {
+      \       'alternate': [
+      \           '{basename}.js',
+      \           '{basename}.sol',
+      \       ],
+      \       'type': 'test',
+      \     },
+      \     '**/tests/*-test.js': {
+      \       'alternate': '{dirname}/{basename}.js',
+      \       'type': 'test'
+      \     }
+      \   }
+      \ }
+
+" vim-vinegar
+"
+let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 
 " ============================================================================
 
