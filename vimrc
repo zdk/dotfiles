@@ -324,6 +324,13 @@ let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 "     Custom MAPPING
 " ============================================================================
 
+" Super magic, Always!
+vnoremap / /\v
+nnoremap / /\v
+
+" Highlighting on/off
+:noremap <F4> :set hlsearch! hlsearch?<CR>
+
 " Remove search highlight
 nnoremap <leader><space> :nohlsearch<CR>
 " Print full path
