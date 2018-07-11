@@ -350,4 +350,9 @@ nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
 " open current file with Chrome
 nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 
+" pair
+"inoremap ( ()<Left>
+inoremap { {}<Left>
+inoremap [ []<Left>
+
 silent! nmap <F6> :SyntasticToggleMode<CR>

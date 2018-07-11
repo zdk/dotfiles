@@ -130,4 +130,5 @@ if [ -f '/Users/zdk/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Us
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
+
 source ~/.zshrc.local
