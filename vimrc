@@ -41,6 +41,7 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'mxw/vim-jsx'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'tomlion/vim-solidity'
+Plug 'hashivim/vim-terraform'
 
 " Indent
 Plug 'nathanaelkane/vim-indent-guides'
@@ -50,6 +51,9 @@ Plug 'tpope/vim-unimpaired'
 
 " HTML
 Plug 'mattn/emmet-vim'
+
+" Markdown
+Plug 'iamcco/markdown-preview.vim'
 
 " Motion
 Plug 'easymotion/vim-easymotion'
@@ -64,6 +68,8 @@ Plug 'tacahiroy/ctrlp-funky'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+" Test (Plugin Development)
+Plug 'junegunn/vader.vim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -76,7 +82,9 @@ endif
 call plug#end()
 
 " Just for fun
-echom "Yo! >^.^<"
+echom 'Yo!, Opening file size: ' getfsize(expand(@%)) ' bytes'
+map - ddp
+map _ ddkkp
 
 "=============================================================================
 
@@ -153,7 +161,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
 " vim-airline
-let g:airline_theme='molokai'
+let g:airline_theme='onedark'
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
 
@@ -317,6 +325,12 @@ let g:projectionist_heuristics = {
 " vim-vinegar
 "
 let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
+
+" vim-terraform
+"
+let g:terraform_align=1
+let g:terraform_fold_sections=1
+let g:terraform_remap_spacebar=1
 
 " ============================================================================
 

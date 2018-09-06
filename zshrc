@@ -12,7 +12,9 @@ alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.or
 alias i='/sbin/ifconfig'
 alias cls='clear;ls'
 alias สส='ll'
-
+alias ping='prettyping --nolegend'
+alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+alias help='tldr'
 alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 
 ###########
@@ -47,6 +49,14 @@ pg_restore_z() {
   zcat $4 | psql -h $1 -W -U $2 $3
 }
 
+debug_http_request() {
+  socat - TCP-LISTEN:8000,fork
+}
+
+make_sni_request() {
+  curl -k -I --resolve $1:80:$2 https://$1/
+}
+
 checksum () {
   if [[ $1 = 'md5' ]]; then
       md5 $2
@@ -62,6 +72,10 @@ checksum () {
 
 whatismyip() {
   curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+}
+
+gen-cert() {
+  openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out MyCertificate.crt -keyout MyKey.key
 }
 
 ssh-add-host() {
@@ -132,3 +146,4 @@ if [ -f '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then sourc
 
 
 source ~/.zshrc.local
+eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
