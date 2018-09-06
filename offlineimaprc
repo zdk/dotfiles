@@ -1,0 +1,39 @@
+[general]
+accounts = warachet
+ui = ttyui
+pythonfile=~/bin/offlineimap-helpers.py
+fsync = False
+
+[Account warachet]
+localrepository = warachet-local
+remoterepository = warachet-remote
+#postsynchook = notmuch new
+
+[Repository warachet-local]
+type = Maildir
+localfolders = ~/.mail/warachet-cybernetes.co
+nametrans = lambda folder: {'drafts':  '[Gmail]/Drafts',
+                            'sent':    '[Gmail]/Sent Mail',
+                            'flagged': '[Gmail]/Starred',
+                            'trash':   '[Gmail]/Trash',
+                            'archive': '[Gmail]/All Mail',
+                            }.get(folder, folder)
+
+[Repository warachet-remote]
+type = Gmail
+ssl = yes
+sslcacertfile = /usr/local/etc/openssl/cert.pem
+remoteport = 993
+remoteuser = warachet@cybernetes.co
+remotepasseval = get_keychain_pass(account="warachet@cybernetes.co", server="imap.gmail.com")
+realdelete = no
+nametrans  = lambda folder: {'[Gmail]/Drafts':    'drafts',
+                             '[Gmail]/Sent Mail': 'sent',
+                             '[Gmail]/Starred':   'flagged',
+                             '[Gmail]/Trash':     'trash',
+                             '[Gmail]/All Mail':  'archive',
+                             }.get(folder, folder)
+folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
+                                             '[Gmail]/Important',
+                                             '[Gmail]/Spam',
+                                             ]
