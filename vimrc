@@ -343,19 +343,20 @@ vnoremap / /\v
 nnoremap / /\v
 
 " Highlighting on/off
-:noremap <F4> :set hlsearch! hlsearch?<CR>
+noremap <F4> :set hlsearch! hlsearch?<CR>
 
 " Remove search highlight
 nnoremap <Leader><space> :nohlsearch<CR>
 " Print full path
 noremap <C-f> :echo expand("%:p")<cr>
 " Quick save
-noremap <ESC><ESC> <ESC>:update<CR>
+noremap <Leader>w <ESC>:w<CR>
+inoremap <Leader>w <ESC>:update<CR>i
 
 " Some useful quickfix shortcuts for quickfix
 noremap <C-n> :cn<CR>
 noremap <C-m> :cp<CR>
-nnoremap <leader>a :cclose<CR>
+nnoremap <Leader>a :cclose<CR>
 
 " ctrlp-funky
 nnoremap <Leader>fu :CtrlPFunky<Cr>
