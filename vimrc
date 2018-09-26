@@ -1,4 +1,4 @@
-" Let vim break compatibility with vi
+" Let vim break compatibility with vi.
 set nocompatible
 
 " ============================================================================
@@ -31,7 +31,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'ntpeters/vim-better-whitespace'
 
 " Commentor
-Plug 'scrooloose/nerdcommenter'
+Plug 'tomtom/tcomment_vim'
 
 " Syntax
 Plug 'elzr/vim-json', {'for' : 'json'}
@@ -346,15 +346,15 @@ nnoremap / /\v
 :noremap <F4> :set hlsearch! hlsearch?<CR>
 
 " Remove search highlight
-nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <Leader><space> :nohlsearch<CR>
 " Print full path
-map <C-f> :echo expand("%:p")<cr>
+noremap <C-f> :echo expand("%:p")<cr>
 " Quick save
-map <Esc><Esc> :w<CR>
+noremap <ESC><ESC> <ESC>:update<CR>
 
 " Some useful quickfix shortcuts for quickfix
-map <C-n> :cn<CR>
-map <C-m> :cp<CR>
+noremap <C-n> :cn<CR>
+noremap <C-m> :cp<CR>
 nnoremap <leader>a :cclose<CR>
 
 " ctrlp-funky
@@ -369,4 +369,11 @@ nnoremap <F12>c :exe ':silent !open -a /Applications/Google\ Chrome.app %'<CR>
 inoremap { {}<Left>
 inoremap [ []<Left>
 
-silent! nmap <F6> :SyntasticToggleMode<CR>
+silent! nnoremap <F6> :SyntasticToggleMode<CR>
+
+" toggle case
+noremap <F8> <Esc>g~iwea
+
+" Quick edit vimrc
+nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <Leader>sv :source $MYVIMRC<CR>
