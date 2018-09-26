@@ -16,6 +16,9 @@ alias ping='prettyping --nolegend'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias help='tldr'
 alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
+alias mutt='LC_ALL=en_us.UTF-8 neomutt'
+alias nasm='/usr/local/bin/nasm'
+alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 
 ###########
 # Functions
@@ -50,7 +53,7 @@ pg_restore_z() {
 }
 
 debug_http_request() {
-  socat - TCP-LISTEN:8000,fork
+  socat - TCP-LISTEN:$1,fork
 }
 
 make_sni_request() {
@@ -102,11 +105,9 @@ blog_sync() {
   rsync -rvz -e 'ssh -p 2222' --progress --remove-sent-files _site/. zdk@ssh.blinkenshell.org:/home/zdk/public_html/
 }
 
-# Golang
+# Go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
-
-
 
 if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
@@ -121,6 +122,10 @@ fi
 
 if [ -f ~/bin/google-cloud-sdk/completion.zsh.inc ]; then
   source ~/bin/google-cloud-sdk/completion.zsh.inc
+fi
+
+if [ -f /usr/local/share/zsh/site-functions/_awless ]; then
+  source /usr/local/share/zsh/site-functions/_awless
 fi
 
 # Deer
@@ -147,3 +152,5 @@ if [ -f '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then sourc
 
 source ~/.zshrc.local
 eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+
+
