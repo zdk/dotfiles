@@ -1,4 +1,4 @@
-" Let vim break compatibility with vi.
+" Let vim break compatibility with vi :)
 set nocompatible
 
 " ============================================================================
@@ -45,6 +45,7 @@ Plug 'hashivim/vim-terraform'
 
 " Indent
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'junegunn/vim-easy-align'
 
 " Mapping
 Plug 'tpope/vim-unimpaired'
@@ -124,6 +125,7 @@ set updatetime=300
 set pumheight=10               " Completion window max size
 set conceallevel=2             " Concealed text is completely hidden
 set lazyredraw
+set timeoutlen=1000 ttimeoutlen=50
 
 if has('mac')
   set clipboard^=unnamed
@@ -331,6 +333,15 @@ let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let g:terraform_align=1
 let g:terraform_fold_sections=1
 let g:terraform_remap_spacebar=1
+
+" vim-easy-align
+"
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 " ============================================================================
 
