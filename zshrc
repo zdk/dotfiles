@@ -1,4 +1,3 @@
-# Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
@@ -19,6 +18,25 @@ alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
+alias tf='terraform'
+
+# Go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
+
+# Ruby
+if type rbenv > /dev/null; then
+  export PATH="$HOME/.rbenv/bin:$PATH"
+  eval "$(rbenv init -)"
+fi
+
+# Perl
+source ~/.zshrc.local
+eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+
+# VIM
+export MYVIMRC=~/.vimrc
+
 
 ###########
 # Functions
@@ -105,52 +123,7 @@ blog_sync() {
   rsync -rvz -e 'ssh -p 2222' --progress --remove-sent-files _site/. zdk@ssh.blinkenshell.org:/home/zdk/public_html/
 }
 
-# Go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
-
-if type rbenv > /dev/null; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-fi
-
-source /usr/local/share/zsh/site-functions
-
-if [ -f ~/bin/google-cloud-sdk/path.zsh.inc ]; then
-  source ~/bin/google-cloud-sdk/path.zsh.inc
-fi
-
-if [ -f ~/bin/google-cloud-sdk/completion.zsh.inc ]; then
-  source ~/bin/google-cloud-sdk/completion.zsh.inc
-fi
-
-if [ -f /usr/local/share/zsh/site-functions/_awless ]; then
-  source /usr/local/share/zsh/site-functions/_awless
-fi
-
-# Deer
-if [[ -s "$HOME/bin/deer/deer" ]]; then
-  source "$HOME/bin/deer/deer"
-fi
-
 # Source local config
 if [[ -s "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
-
-export PATH="$HOME/bin:/usr/local/opt/qt@5.5/bin:$PATH"
-
-export MYVIMRC=~/.vimrc
-
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/zdk/Downloads/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/zdk/Downloads/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/zdk/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
-
-
-source ~/.zshrc.local
-eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-
-
