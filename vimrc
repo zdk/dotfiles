@@ -42,6 +42,7 @@ Plug 'mxw/vim-jsx'
 Plug 'othree/javascript-libraries-syntax.vim'
 Plug 'tomlion/vim-solidity'
 Plug 'hashivim/vim-terraform'
+Plug 'moby/moby' , {'rtp': '/contrib/syntax/vim/'}
 
 " Indent
 Plug 'nathanaelkane/vim-indent-guides'
