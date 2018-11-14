@@ -6,6 +6,8 @@ bindkey '^R' history-incremental-search-backward  #ok
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 
+export EDITOR='vim'
+
 # Some Aliases
 alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
 alias i='/sbin/ifconfig'
@@ -22,7 +24,7 @@ alias tf='terraform'
 
 # Go
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:$HOME/bin:$GOPATH/bin:/usr/local/opt/go/libexec/bin
 
 # Ruby
 if type rbenv > /dev/null; then
@@ -121,6 +123,10 @@ touch_ed() {
 
 blog_sync() {
   rsync -rvz -e 'ssh -p 2222' --progress --remove-sent-files _site/. zdk@ssh.blinkenshell.org:/home/zdk/public_html/
+}
+
+ssl_view_remote_cert() {
+ openssl s_client -showcerts -connect $1:443
 }
 
 # Source local config
