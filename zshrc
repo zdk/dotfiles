@@ -22,6 +22,11 @@ alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 alias tf='terraform'
 
+# Kubernetes
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
 # Go
 export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/bin:$GOPATH/bin:/usr/local/opt/go/libexec/bin
@@ -35,6 +40,9 @@ fi
 # Perl
 source ~/.zshrc.local
 eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+
+# Python
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
 # VIM
 export MYVIMRC=~/.vimrc

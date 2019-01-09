@@ -83,8 +83,6 @@ endif
 
 call plug#end()
 
-" Just for fun
-echom 'Yo!, Opening file size: ' getfsize(expand(@%)) ' bytes'
 map - ddp
 map _ ddkkp
 
@@ -334,6 +332,7 @@ let g:netrw_list_hide = '\(^\|\s\s\)\zs\.\S\+'
 let g:terraform_align=1
 let g:terraform_fold_sections=1
 let g:terraform_remap_spacebar=1
+let g:terraform_fmt_on_save=1
 
 " vim-easy-align
 "
@@ -385,7 +384,7 @@ inoremap [ []<Left>
 silent! nnoremap <F6> :SyntasticToggleMode<CR>
 
 " toggle case
-noremap <F8> <Esc>g~iwea
+noremap <F8> <Esc>g~iwe
 
 " Quick edit vimrc
 nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
