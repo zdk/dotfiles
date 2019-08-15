@@ -29,7 +29,7 @@ fi
 
 # Go
 export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/bin:$GOPATH/bin:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:$HOME/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin
 
 # Ruby
 if type rbenv > /dev/null; then
@@ -37,16 +37,11 @@ if type rbenv > /dev/null; then
   eval "$(rbenv init -)"
 fi
 
-# Perl
-source ~/.zshrc.local
-eval "$(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
-
 # Python
 export PATH="/usr/local/opt/python/libexec/bin:$PATH"
 
 # VIM
 export MYVIMRC=~/.vimrc
-
 
 ###########
 # Functions
@@ -134,10 +129,23 @@ blog_sync() {
 }
 
 ssl_view_remote_cert() {
- openssl s_client -showcerts -connect $1:443
+  openssl s_client -showcerts -connect $1:443
+}
+
+join_by() {
+  local IFS="$1"; shift; echo "$*";
 }
 
 # Source local config
 if [[ -s "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
+export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
