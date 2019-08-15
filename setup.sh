@@ -6,4 +6,11 @@ function link_dot () {
   ln -sfv "$CURRENT_PATH/$1" $HOME/.$1
 }
 
-link_dot "vimrc"
+# Add any dot file
+files=('vimrc' 'zshrc' 'zpreztorc')
+
+echo "Linking..."
+for f in $files; do
+ link_dot "$f"
+done
+echo "Done"
