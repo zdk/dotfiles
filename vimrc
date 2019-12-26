@@ -66,6 +66,10 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tacahiroy/ctrlp-funky'
 
+" NerdTree
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 " Completion
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -125,6 +129,7 @@ set pumheight=10               " Completion window max size
 set conceallevel=2             " Concealed text is completely hidden
 set lazyredraw
 set timeoutlen=1000 ttimeoutlen=50
+set nofixendofline
 
 if has('mac')
   set clipboard^=unnamed

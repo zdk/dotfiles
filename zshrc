@@ -22,6 +22,7 @@ alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 alias tf='terraform'
+alias vpn-connect='lazy-connect'
 
 # Kubernetes
 if [ $commands[kubectl] ]; then
@@ -30,16 +31,21 @@ fi
 
 # Go
 export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/bin:$GOPATH/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:$HOME/bin:$HOME/go/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin
 
 # Ruby
 if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
+export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# Chef
+export PATH="$PATH:$HOME/.chefdk/gem/ruby/2.6.0/bin"
 
 # Python
-export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+export PATH="/usr/local/opt/python/libexec/bin:$HOME/Library/Python/3.7/bin:$PATH"
 
 # VIM
 export MYVIMRC=~/.vimrc
@@ -48,17 +54,6 @@ export MYVIMRC=~/.vimrc
 # Functions
 ###########
 
-man() {
-    env \
-        LESS_TERMCAP_mb=$(printf "\e[1;31m") \
-        LESS_TERMCAP_md=$(printf "\e[1;31m") \
-        LESS_TERMCAP_me=$(printf "\e[0m") \
-        LESS_TERMCAP_se=$(printf "\e[0m") \
-        LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
-        LESS_TERMCAP_ue=$(printf "\e[0m") \
-        LESS_TERMCAP_us=$(printf "\e[1;32m") \
-            man "$@"
-}
 
 encrypt() {
   openssl aes-256-cbc -a -salt -in $1 -out $2
@@ -117,8 +112,12 @@ bk() {
   cp -a "$1" "${1}_$(date "+%Y-%m-%dT%H:%M:%S%z")"
 }
 
-cpucores() {
+cpu_cores() {
   sysctl -n hw.ncpu
+}
+
+cpu_generation(){
+  sysctl -n machdep.cpu.brand_string
 }
 
 touch_ed() {
@@ -137,16 +136,26 @@ join_by() {
   local IFS="$1"; shift; echo "$*";
 }
 
-# Source local config
-if [[ -s "$HOME/.zshrc.local" ]]; then
-  source "$HOME/.zshrc.local"
-fi
+# K8S
+kube_get_node_ip() {
+  EXTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}');
+  INTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}');
+  echo "External IP:" $EXTERNAL_IP;
+  echo "Internal IP:" $INTERNAL_IP;
+}
+
+source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
+PS1='$(kube_ps1)'$PS1
+kubeoff
+
+# ETC
 export PATH="/usr/local/opt/curl/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+# Source files
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
+[ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
+[ -f ~/.google-cloud-sdk/path.zsh.inc ] && source "$HOME/google-cloud-sdk/path.zsh.inc"
+[ -f ~/.google-cloud-sdk/completion.zsh.inc ] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
