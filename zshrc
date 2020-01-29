@@ -136,6 +136,10 @@ join_by() {
   local IFS="$1"; shift; echo "$*";
 }
 
+cdl() {
+  cd $1 && ls -la $1
+}
+
 # K8S
 kube_get_node_ip() {
   EXTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}');
@@ -159,3 +163,5 @@ export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
 [ -f ~/.google-cloud-sdk/path.zsh.inc ] && source "$HOME/google-cloud-sdk/path.zsh.inc"
 [ -f ~/.google-cloud-sdk/completion.zsh.inc ] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
+export PATH="/usr/local/opt/helm@2/bin:$PATH"
+alias "k=kubectl"
