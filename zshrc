@@ -21,6 +21,7 @@ alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
+alias vim='nvim'
 alias tf='terraform'
 alias vpn-connect='lazy-connect'
 
@@ -40,6 +41,9 @@ if type rbenv > /dev/null; then
 fi
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+# Python 2
+export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Chef
 export PATH="$PATH:$HOME/.chefdk/gem/ruby/2.6.0/bin"
@@ -161,7 +165,7 @@ export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
 [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
-[ -f ~/.google-cloud-sdk/path.zsh.inc ] && source "$HOME/google-cloud-sdk/path.zsh.inc"
-[ -f ~/.google-cloud-sdk/completion.zsh.inc ] && source "$HOME/google-cloud-sdk/completion.zsh.inc"
+[ -f ~/.google-cloud-sdk/path.zsh.inc ] && source "$HOME/.google-cloud-sdk/path.zsh.inc"
+[ -f ~/.google-cloud-sdk/completion.zsh.inc ] && source "$HOME/.google-cloud-sdk/completion.zsh.inc"
 export PATH="/usr/local/opt/helm@2/bin:$PATH"
 alias "k=kubectl"
