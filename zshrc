@@ -6,8 +6,8 @@ bindkey '^R' history-incremental-search-backward  #ok
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 
-export EDITOR='vim'
-export VISUAL='vim'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # Some Aliases
 alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
