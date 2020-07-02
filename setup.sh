@@ -13,4 +13,5 @@ echo "Linking..."
 for f in $files; do
  link_dot "$f"
 done
+
 echo "Done"
