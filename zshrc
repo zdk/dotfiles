@@ -161,6 +161,9 @@ export PATH="/usr/local/opt/curl/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
+# Vault
+export VAULT_ADDR='http://127.0.0.1:8200'
+
 # Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
@@ -169,3 +172,6 @@ export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 [ -f ~/.google-cloud-sdk/completion.zsh.inc ] && source "$HOME/.google-cloud-sdk/completion.zsh.inc"
 export PATH="/usr/local/opt/helm@2/bin:$PATH"
 alias "k=kubectl"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C $HOME/bin/vault vault
