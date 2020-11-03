@@ -79,6 +79,11 @@ debug_http_request() {
   socat - TCP-LISTEN:$1,fork
 }
 
+git_delete_branch() {
+  git branch -D $1
+  git push origin --delete $1
+}
+
 make_sni_request() {
   curl -k -I --resolve $1:80:$2 https://$1/
 }

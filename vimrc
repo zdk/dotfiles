@@ -395,3 +395,10 @@ noremap <F8> <Esc>g~iwe
 " Quick edit vimrc
 nnoremap <Leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <Leader>sv :source $MYVIMRC<CR>
+
+" easymotion
+" 2 characters search motion
+nmap s <Plug>(easymotion-s2)
+nmap t <Plug>(easymotion-t2)
+
+nnoremap <leader>. :CtrlPTag<cr>
