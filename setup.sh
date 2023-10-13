@@ -7,7 +7,7 @@ function link_dot () {
 }
 
 # Add any dot file
-files=('vimrc' 'zshrc' 'zpreztorc')
+files=('zshrc' 'zpreztorc')
 
 echo "Linking..."
 for f in $files; do

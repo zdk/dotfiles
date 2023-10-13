@@ -21,7 +21,7 @@ alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
-alias vim='nvim'
+#alias vim='nvim'
 alias tf='terraform'
 alias vpn-connect='lazy-connect'
 
@@ -39,6 +39,10 @@ if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
+
+# Brew package manager
+[ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
 export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -157,10 +161,6 @@ kube_get_node_ip() {
   echo "Internal IP:" $INTERNAL_IP;
 }
 
-source "/usr/local/opt/kube-ps1/share/kube-ps1.sh"
-PS1='$(kube_ps1)'$PS1
-kubeoff
-
 # ETC
 export PATH="/usr/local/opt/curl/bin:$PATH"
 export PATH="/usr/local/opt/icu4c/bin:$PATH"
@@ -180,3 +180,4 @@ alias "k=kubectl"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C $HOME/bin/vault vault
+
