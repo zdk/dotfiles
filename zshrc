@@ -21,7 +21,7 @@ alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
-#alias vim='nvim'
+alias vim='nvim'
 alias tf='terraform'
 alias vpn-connect='lazy-connect'
 
