@@ -87,7 +87,9 @@ local plugins = {
 			-- virtual text for the debugger
 			{
 				"theHamsta/nvim-dap-virtual-text",
-				opts = {},
+				config = function()
+					require("nvim-dap-virtual-text").setup()
+				end,
 			},
 		},
 		init = function()
@@ -99,16 +101,16 @@ local plugins = {
 		"dreamsofcode-io/nvim-dap-go",
 		ft = "go",
 		dependencies = "mfussenegger/nvim-dap",
-		config = function(_, opts)
-			require("dap-go").setup(opts)
+		config = function()
+			require("dap-go").setup()
 			require("core.utils").load_mappings("dap_go")
 		end,
 	},
 	{
 		"olexsmir/gopher.nvim",
 		ft = "go",
-		config = function(_, opts)
-			require("gopher").setup(opts)
+		config = function()
+			require("gopher").setup()
 			require("core.utils").load_mappings("gopher")
 		end,
 		build = function()
@@ -122,15 +124,31 @@ local plugins = {
 			"neovim/nvim-lspconfig",
 			"nvim-treesitter/nvim-treesitter",
 		},
-		config = function(_, opts)
-			require("go").setup(opts)
+		config = function()
+			require("go").setup()
 			require("core.utils").load_mappings("go")
 		end,
 		event = { "CmdlineEnter" },
 		ft = { "go", "gomod" },
 		build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
 	},
-
+	{
+		"ray-x/navigator.lua",
+		requires = {
+			{ "ray-x/guihua.lua", run = "cd lua/fzy && make" },
+			{ "neovim/nvim-lspconfig" },
+		},
+	},
+	{
+		"phaazon/hop.nvim",
+		branch = "v2",
+		keys = {
+			{ "s", ":HopChar2MW<CR>" },
+		},
+		config = function()
+			require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
+		end,
+	},
 	-- To make a plugin not be loaded
 	-- {
 	--   "NvChad/nvim-colorizer.lua",
