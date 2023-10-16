@@ -95,4 +95,22 @@ M.gopher = {
 	},
 }
 
+M.go = {
+	plugin = true,
+	n = {
+		["<leader>gds"] = {
+			"<cmd> GoDebug <CR>",
+			"Start Debug Session",
+		},
+		["<leader>gdb"] = {
+			"<cmd> GoBreakToggle <CR>",
+			"GoDebug -b",
+		},
+		["<leader>gdt"] = {
+			"<cmd> GoDbgStop <CR>",
+			"Terminate/Stop Debug Sessoin",
+		},
+	},
+}
+
 return M
