@@ -96,6 +96,15 @@ local plugins = {
 			require("core.utils").load_mappings("dap")
 		end,
 	},
+
+  {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup()
+      require("core.utils").load_mappings "whichkey"
+    end,
+  },
+
 	-- go stuff
 	{
 		"dreamsofcode-io/nvim-dap-go",

@@ -5,7 +5,6 @@ M.disabled = {
 	n = {
 		["<leader>h"] = "",
 		["<C-a>"] = "",
-		['"'] = "",
 	},
 }
 
@@ -117,6 +116,16 @@ M.go = {
 		["<leader>gdt"] = {
 			"<cmd> GoDbgStop <CR>",
 			"Terminate/Stop Debug Sessoin",
+		},
+	},
+}
+
+M.whichkey = {
+	plugin = true,
+	n = {
+		["\""] = {
+			"",
+			"no ops",
 		},
 	},
 }
