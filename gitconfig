@@ -2,7 +2,7 @@
 	name = zdk
 	email = zdkaster@gmail.com
 [core]
-	editor = vim
+	editor = nvim
 [alias]
 	lg = !sh -c 'git log --graph --pretty=\"format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset\n\" --abbrev-commit --date=relative "$@"' -
 	lgr = !sh -c 'git log --graph --pretty=\"format:%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset\n\" --abbrev-commit --date=relative --remotes="$1/*"' -
