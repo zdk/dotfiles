@@ -5,3 +5,7 @@
 --   pattern = "*",
 --   command = "tabdo wincmd =",
 -- })
+
+-- vim.schedule(function()
+--   vim.keymap.del("n", '"')
+-- end)
