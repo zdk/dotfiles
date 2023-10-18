@@ -179,6 +179,18 @@ local plugins = {
 			})
 		end,
 	},
+
+  {
+    'stevearc/oil.nvim',
+    lazy = false,
+    opts = {},
+		config = function(_, opts)
+			require("oil").setup(opts)
+		end,
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+
 	-- nvim-surround does not work well
 	-- {
 	-- 	"kylechui/nvim-surround",

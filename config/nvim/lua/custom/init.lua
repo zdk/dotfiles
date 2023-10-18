@@ -9,3 +9,7 @@
 -- vim.schedule(function()
 --   vim.keymap.del("n", '"')
 -- end)
+
+vim.schedule(function()
+  vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+end)
