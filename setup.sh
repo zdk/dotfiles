@@ -7,7 +7,7 @@ function link_dot () {
 }
 
 # Add any dot file
-files=('zshrc' 'zpreztorc', 'config/nvim/lua/custom')
+files=('zshrc' 'zpreztorc')
 
 echo "Linking..."
 for f in $files; do
@@ -15,4 +15,4 @@ for f in $files; do
 done
 echo "Done!"
 
-echo "For nvim, Run :MasonInstallAll. Restart nvim."
+./install-astronvim.sh
