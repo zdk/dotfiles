@@ -86,7 +86,6 @@ debug_http_request() {
 killport() {
   while test $# -gt 0
   do
-      echo "$1"
       port_number=$1
       pid=$(lsof -P | grep ':'$port_number'[[:space:]](LISTEN)' | awk '{print $2}')
       if ! kill -QUIT $pid > /dev/null 2>&1; then
