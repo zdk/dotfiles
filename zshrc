@@ -83,6 +83,25 @@ debug_http_request() {
   socat - TCP-LISTEN:$1,fork
 }
 
+killport() {
+  while test $# -gt 0
+  do
+      echo "$1"
+      port_number=$1
+      pid=$(lsof -P | grep ':'$port_number'[[:space:]](LISTEN)' | awk '{print $2}')
+      if ! kill -QUIT $pid > /dev/null 2>&1; then
+        echo -e "\e[0;31mNo process running\e[0m $port_number port" >&2
+      else
+        echo -e "Kill $port_number \e[0;32msuccessfully\e[0m"
+      fi
+      shift
+  done
+}
+
+lsport() {
+  lsof -Pn -i4 | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
+}
+
 git_delete_branch() {
   git branch -D $1
   git push origin --delete $1
@@ -181,3 +200,15 @@ alias "k=kubectl"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C $HOME/bin/vault vault
 
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/warachet/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+
+# PHP 7.0
+export PATH="/opt/homebrew/opt/php@7.0/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.0/sbin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/php@7.0/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/php@7.0/include"
+
+export PATH="$PATH:$HOME/.composer/vendor/bin"
