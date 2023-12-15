@@ -11,3 +11,5 @@
 	ui = auto
 [init]
 	defaultBranch = main
+[diff]
+	noprefix = true
