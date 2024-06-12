@@ -32,7 +32,7 @@ fi
 
 # Go
 export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/bin:$HOME/go/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin
+export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin:$PATH
 
 # Ruby
 if type rbenv > /dev/null; then
@@ -43,17 +43,11 @@ fi
 # Brew package manager
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-export PATH="$PATH:$HOME/.rvm/bin"
+export PATH="$HOME/.rvm/bin:$PATH"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# Python 2
-export PATH="$PATH:$HOME/Library/Python/2.7/bin"
-
 # Chef
-export PATH="$PATH:$HOME/.chefdk/gem/ruby/2.6.0/bin"
-
-# Python
-export PATH="/usr/local/opt/python/libexec/bin:$HOME/Library/Python/3.7/bin:$PATH"
+export PATH="$HOME/.chefdk/gem/ruby/2.6.0/bin:$PATH"
 
 # VIM
 export MYVIMRC=~/.vimrc
