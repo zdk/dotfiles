@@ -7,7 +7,7 @@ function link_dot () {
 }
 
 # Add any dot file
-files=('zshrc' 'zpreztorc')
+files=('gitconfig' 'zshrc' 'zpreztorc')
 
 echo "Linking..."
 for f in $files; do
