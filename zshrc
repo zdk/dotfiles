@@ -1,56 +1,64 @@
+# ZPrezto init
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Bindkey
 bindkey '^R' history-incremental-search-backward  #ok
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 
+# Editor: VIM
 export EDITOR='nvim'
 export VISUAL='nvim'
 
-# Some Aliases
-alias ssh-blinkenshell='ssh -v -o ServerAliveInterval=60 zdk@ssh.blinkenshell.org -p 2222'
+# RC File: VIM
+export MYVIMRC=~/.vimrc
+
+
+# Aliases: k8s
+alias k=kubectl
+
+# Aliases: misc
+alias tf='terraform'
+alias ping='prettyping --nolegend'
 alias i='/sbin/ifconfig'
 alias cls='clear;ls'
 alias สส='ll'
-alias ping='prettyping --nolegend'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias help='tldr'
-alias q='QHOME=~/bin/q rlwrap -r ~/bin/q/m32/q'
 alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 alias vim='nvim'
-alias tf='terraform'
 alias vpn-connect='lazy-connect'
 
-# Kubernetes
+# Completition: k8s
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
 
-# Go
+# Path: Go
 export GOPATH=$HOME/go
 export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin:$PATH
 
-# Ruby
+# Path: Ruby
 if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
 
-# Brew package manager
+# Path: Brew package manager
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-export PATH="$HOME/.rvm/bin:$PATH"
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# Chef
+# Path: Chef
 export PATH="$HOME/.chefdk/gem/ruby/2.6.0/bin:$PATH"
 
-# VIM
-export MYVIMRC=~/.vimrc
+# PATH ETC
+export PATH="/usr/local/opt/curl/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/bin:$PATH"
+export PATH="/usr/local/opt/icu4c/sbin:$PATH"
+
 
 ###########
 # Functions
@@ -65,16 +73,20 @@ decrypt() {
   openssl aes-256-cbc -d -a -in $1 -out $2
 }
 
-pg_backup() {
+pg-backup() {
   pg_dump -Z 4 -h $1 -W -U $2 $3
 }
 
-pg_restore_z() {
+pg-restore_z() {
   zcat $4 | psql -h $1 -W -U $2 $3
 }
 
-debug_http_request() {
+debug-http-request() {
   socat - TCP-LISTEN:$1,fork
+}
+
+debug-sni-request() {
+  curl -k -I --resolve $1:80:$2 https://$1/
 }
 
 killport() {
@@ -95,14 +107,11 @@ lsport() {
   lsof -Pn -i4 | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
 }
 
-git_delete_branch() {
+delete-git-branch() {
   git branch -D $1
   git push origin --delete $1
 }
 
-make_sni_request() {
-  curl -k -I --resolve $1:80:$2 https://$1/
-}
 
 checksum () {
   if [[ $1 = 'md5' ]]; then
@@ -125,83 +134,55 @@ gen-cert() {
   openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out MyCertificate.crt -keyout MyKey.key
 }
 
-ssh-add-host() {
+add-ssh-host() {
   echo -en "\n\nHost $1\n  HostName $2\n  User $3\n IdentityFile $4" >> ~/.ssh/config
 }
 
-ssh-hosts() {
+show-ssh-hosts() {
   awk '$1 ~ /^Host$/ {print $2}' ~/.ssh/config
 }
 
-bk() {
+bak-now() {
   cp -a "$1" "${1}_$(date "+%Y-%m-%dT%H:%M:%S%z")"
 }
 
-cpu_cores() {
+cpu-cores() {
   sysctl -n hw.ncpu
 }
 
-cpu_generation(){
+cpu-generation(){
   sysctl -n machdep.cpu.brand_string
 }
 
-touch_ed() {
+touch-ed() {
   touch $1 && vim $1
 }
 
-blog_sync() {
+sync-files() {
   rsync -rvz -e 'ssh -p 2222' --progress --remove-sent-files _site/. zdk@ssh.blinkenshell.org:/home/zdk/public_html/
 }
 
-ssl_view_remote_cert() {
+view-ssl-remote-cert() {
   openssl s_client -showcerts -connect $1:443
 }
 
-join_by() {
+join-by() {
   local IFS="$1"; shift; echo "$*";
 }
 
-cdl() {
+cdls() {
   cd $1 && ls -la $1
 }
 
-# K8S
-kube_get_node_ip() {
+nodes-ip-k8s() {
   EXTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}');
   INTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}');
   echo "External IP:" $EXTERNAL_IP;
   echo "Internal IP:" $INTERNAL_IP;
 }
 
-# ETC
-export PATH="/usr/local/opt/curl/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-
-# Vault
-export VAULT_ADDR='http://127.0.0.1:8200'
 
 # Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
 [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
-[ -f ~/.google-cloud-sdk/path.zsh.inc ] && source "$HOME/.google-cloud-sdk/path.zsh.inc"
-[ -f ~/.google-cloud-sdk/completion.zsh.inc ] && source "$HOME/.google-cloud-sdk/completion.zsh.inc"
-export PATH="/usr/local/opt/helm@2/bin:$PATH"
-alias "k=kubectl"
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C $HOME/bin/vault vault
-
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/warachet/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
-
-# PHP 7.0
-export PATH="/opt/homebrew/opt/php@7.0/bin:$PATH"
-export PATH="/opt/homebrew/opt/php@7.0/sbin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/php@7.0/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/php@7.0/include"
-
-export PATH="$PATH:$HOME/.composer/vendor/bin"
