@@ -1,4 +1,4 @@
 ZDK's dotfiles
 ==============
 
-./setup.sh
+Just run: `./setup.sh`
