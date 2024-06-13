@@ -31,6 +31,7 @@ alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
 alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 alias vim='nvim'
+alias vi='vim'
 alias vpn-connect='lazy-connect'
 
 # Completition: k8s
@@ -38,9 +39,16 @@ if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
 
+# Brew shellenv
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Path: Go
 export GOPATH=$HOME/go
 export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin:$PATH
+
+
+# Path: Rust
+export PATH=/Users/zdk/.cargo/bin:$PATH
 
 # Path: Ruby
 if type rbenv > /dev/null; then
@@ -50,14 +58,6 @@ fi
 
 # Path: Brew package manager
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-# Path: Chef
-export PATH="$HOME/.chefdk/gem/ruby/2.6.0/bin:$PATH"
-
-# PATH ETC
-export PATH="/usr/local/opt/curl/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
 
 
 ###########
@@ -186,3 +186,12 @@ nodes-ip-k8s() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
 [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+# Path: Python
+export PATH="$HOME/.pyenv/shims:$PATH"
+export PATH="/Users/zdk/.local/bin:$PATH"

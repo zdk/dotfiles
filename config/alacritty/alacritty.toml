@@ -1,3 +1,24 @@
 import = [
     "~/.config/alacritty/themes/themes/everforest_light.toml"
 ]
+
+[font.bold]
+family = "FiraCode Nerd Font Mono"
+style = "Bold"
+
+[font.bold_italic]
+family = "FiraCode Nerd Font Mono"
+style = "Bold Italic"
+
+[font.italic]
+family = "FiraCode Nerd Font Mono"
+style = "Italic"
+
+[font.normal]
+family = "FiraCode Nerd Font Mono"
+style = "Regular"
+
+[window]
+padding = { x = 3, y = 3 }
+dynamic_padding = true
+option_as_alt = "Both"
