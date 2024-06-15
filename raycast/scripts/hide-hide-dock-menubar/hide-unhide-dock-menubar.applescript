@@ -14,5 +14,5 @@ tell application "System Events"
   # Dock
   tell dock preferences to set autohide to not autohide
   # Menu Bar
-	tell dock preferences to set autohide menu bar to not autohide menu bar
+  tell dock preferences to set autohide menu bar to not autohide menu bar
 end tell
