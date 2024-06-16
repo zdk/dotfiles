@@ -44,13 +44,21 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # Path: Go
 export GOPATH=$HOME/go
-export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:/usr/local/opt/go/libexec/bin:$PATH
+export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:$PATH
 
 
 # Path: Rust
 export PATH=/Users/zdk/.cargo/bin:$PATH
 
 # Path: Ruby
+
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+# For compilers
+export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+
+# rbenv
 if type rbenv > /dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
@@ -104,7 +112,7 @@ killport() {
 }
 
 lsport() {
-  lsof -Pn -i4 | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
+   sudo lsof -nP -i4TCP | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
 }
 
 delete-git-branch() {
@@ -190,7 +198,6 @@ nodes-ip-k8s() {
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
 
 # Path: Python
 export PATH="$HOME/.pyenv/shims:$PATH"
