@@ -16,7 +16,4 @@ for f in $files; do
 done
 echo "Done!"
 
-# ./install-astronvim.sh
-
-
-
+./install-astronvim.sh
