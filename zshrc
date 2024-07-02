@@ -189,6 +189,27 @@ nodes-ip-k8s() {
   echo "Internal IP:" $INTERNAL_IP;
 }
 
+aws-switch-profile() {
+  aws-profiles | grep "$1"
+  if [[ $? -ne 0 ]]; then
+    echo "profile: $1 not configured in '$HOME/.aws/config'.\n"
+    echo "current configured profiles:"
+    aws-profiles
+    return 1
+  else
+    export AWS_DEFAULT_PROFILE="$1" AWS_PROFILE="$1"
+  fi
+}
+
+aws-profiles() {
+  profiles=$(aws --no-cli-pager configure list-profiles 2> /dev/null)
+  if [[ -z "$profiles" ]]; then
+    echo "No AWS profiles found in '$HOME/.aws/config"
+    return 1
+  else
+    echo $profiles
+  fi
+}
 
 # Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
