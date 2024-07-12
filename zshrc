@@ -33,6 +33,8 @@ alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 alias vim='nvim'
 alias vi='vim'
 alias vpn-connect='lazy-connect'
+alias zl='zellij'
+alias p='pulumi'
 
 # Completition: k8s
 if [ $commands[kubectl] ]; then
@@ -182,6 +184,31 @@ cdls() {
   cd $1 && ls -la $1
 }
 
+cdmk() {
+  if [[ "$#" -ne 1 ]]; then
+      echo "Usage: $0 <directory>"
+      exit 1
+  fi
+  TARGET_DIR=$1
+  if [[ -d "$TARGET_DIR" ]]; then
+    cd $TARGET_DIR || { return 1; }
+  else
+      read "CONFIRM?Do you want to create a new directory in '$TARGET_DIR'? (yes/no): "
+      if [[ "$CONFIRM" == "yes" ]]; then
+          mkdir -p "$TARGET_DIR"
+          if [[ $? -eq 0 ]]; then
+              echo "'$TARGET_DIR' created."
+              cd "$TARGET_DIR" || { echo "Failed to change directory to '$TARGET_DIR'"; return 1; }
+          else
+              echo "Failed to create directory '$TARGET_DIR'"
+              return 1
+          fi
+      else
+          echo "Directory creation aborted."
+      fi
+  fi
+}
+
 nodes-ip-k8s() {
   EXTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}');
   INTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}');
@@ -215,6 +242,8 @@ aws-profiles() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
 [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
+
+[ -f /opt/homebrew/bin/fzf ] && source <(fzf --zsh)
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
