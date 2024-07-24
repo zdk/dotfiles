@@ -1,6 +1,7 @@
 [user]
 	name = zdk
 	email = di.warachet@gmail.com
+	signingkey = 530CF2E0D2546FC5C0B77700095E671978AB7340
 [core]
 	editor = nvim
 [alias]
@@ -13,3 +14,5 @@
 	defaultBranch = main
 [diff]
 	noprefix = true
+[commit]
+	gpgsign = true

@@ -33,7 +33,7 @@ alias vim-noplug='vim -u NONE -U NONE --noplugin -N'
 alias vim='nvim'
 alias vi='vim'
 alias vpn-connect='lazy-connect'
-alias zl='zellij'
+alias zel='zellij'
 alias p='pulumi'
 
 # Completition: k8s
