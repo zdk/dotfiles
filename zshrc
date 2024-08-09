@@ -36,10 +36,13 @@ alias vpn-connect='lazy-connect'
 alias zel='zellij'
 alias p='pulumi'
 
-# Completition: k8s
+# k8s
+# Completition
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Brew shellenv
 eval "$(/opt/homebrew/bin/brew shellenv)"
@@ -236,6 +239,11 @@ aws-profiles() {
   else
     echo $profiles
   fi
+}
+
+scan-port() {
+  TARGET_IP=$1
+  nmap -sC -sV -Pn -n -p- $TARGET_IP --open
 }
 
 # Source files
