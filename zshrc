@@ -43,6 +43,10 @@ if [ $commands[kubectl] ]; then
 fi
 # krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# k3s
+kubeconfig-k3s() {
+  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+}
 
 # Brew shellenv
 if [[ -e "/opt/homebrew/bin/brew" ]]; then
