@@ -59,7 +59,7 @@ export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:$PATH
 
 
 # Path: Rust
-export PATH=/Users/zdk/.cargo/bin:$PATH
+export PATH=$HOME/.cargo/bin:$PATH
 
 # Path: Ruby
 
@@ -68,6 +68,13 @@ export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/ruby/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
+
+# Path: Bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # rbenv
 if type rbenv > /dev/null; then
@@ -266,3 +273,4 @@ export NVM_DIR="$HOME/.config/nvm"
 # Path: Python
 export PATH="$HOME/.pyenv/shims:$PATH"
 export PATH="/Users/zdk/.local/bin:$PATH"
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
