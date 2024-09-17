@@ -24,6 +24,7 @@ alias tf='terraform'
 alias ping='prettyping --nolegend'
 alias i='/sbin/ifconfig'
 alias cls='clear;ls'
+alias ll='ls -la'
 alias สส='ll'
 alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias help='tldr'

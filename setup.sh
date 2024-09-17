@@ -7,7 +7,7 @@ function link_dot () {
 }
 
 # Add any dot file
-files=('gitconfig' 'zshrc' 'zpreztorc')
+files=('zshrc' 'zpreztorc')
 
 echo "Linking..."
 setopt EXTENDED_GLOB
@@ -16,4 +16,8 @@ for f in $files; do
 done
 echo "Done!"
 
-./install-astronvim.sh
+# Install astro neovim
+# ./install-astronvim.sh
+
+# Alacrity theme
+# git submodule update --init --recursive

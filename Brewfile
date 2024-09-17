@@ -1,0 +1,7 @@
+tap "homebrew/bundle"
+brew "fzf"
+brew "gh"
+brew "git"
+brew "neovim"
+brew "zsh"
+cask "firefox"
