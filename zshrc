@@ -36,6 +36,7 @@ alias vi='vim'
 alias vpn-connect='lazy-connect'
 alias zel='zellij'
 alias p='pulumi'
+alias sed="gsed"
 
 # k8s
 # Completition
@@ -73,6 +74,9 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 # Path: Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Dotnet
+export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
@@ -260,6 +264,10 @@ scan-port() {
   nmap -sC -sV -Pn -n -p- $TARGET_IP --open
 }
 
+k-api() {
+ kubectl config view --minify --output jsonpath="{.clusters[*].cluster.server}"
+}
+
 # Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
@@ -277,3 +285,8 @@ export PATH="/Users/zdk/.local/bin:$PATH"
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="/opt/nvim-linux64/bin:$PATH"
+PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="$PATH:$HOME/.local/bin"
+
+
+source <(kubectl completion zsh)
