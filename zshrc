@@ -290,3 +290,6 @@ export PATH="$PATH:$HOME/.local/bin"
 
 
 source <(kubectl completion zsh)
+
+source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+PS1='$(kube_ps1)'$PS1
