@@ -37,6 +37,7 @@ alias vpn-connect='lazy-connect'
 alias zel='zellij'
 alias p='pulumi'
 alias sed="gsed"
+alias gi='git'
 
 # k8s
 # Completition
@@ -285,11 +286,12 @@ export PATH="/Users/zdk/.local/bin:$PATH"
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="/opt/nvim-linux64/bin:$PATH"
-PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
-
 
 source <(kubectl completion zsh)
 
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
+. "$HOME/.deno/env"
