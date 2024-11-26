@@ -17,6 +17,7 @@ export MYVIMRC=~/.vimrc
 
 
 # Aliases: k8s
+alias kubectl='kubecolor --kubecolor-theme=light'
 alias k=kubectl
 
 # Aliases: misc
@@ -295,3 +296,5 @@ source <(kubectl completion zsh)
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
 . "$HOME/.deno/env"
+
+export AWS_DEFAULT_REGION=ap-southeast-1
