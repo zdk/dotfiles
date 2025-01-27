@@ -160,7 +160,7 @@ checksum () {
 }
 
 whatismyip() {
-  curl -s "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+  curl -Ls "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
 
 gen-cert() {
@@ -295,6 +295,6 @@ source <(kubectl completion zsh)
 
 source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
 PS1='$(kube_ps1)'$PS1
-. "$HOME/.deno/env"
+#. "$HOME/.deno/env"
 
 export AWS_DEFAULT_REGION=ap-southeast-1
