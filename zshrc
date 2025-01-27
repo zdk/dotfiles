@@ -293,10 +293,10 @@ export PATH="$PATH:$HOME/.local/bin"
 
 source <(kubectl completion zsh)
 
-source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-
-type kube_ps1 >/dev/null 2>&1 && PS1='$(kube_ps1)'$PS1
+if [[ "$(uname)" == "Darwin" ]]; then
+  source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+  PS1='$(kube_ps1)'$PS1
+fi
 
 #. "$HOME/.deno/env"
-
 export AWS_DEFAULT_REGION=ap-southeast-1
