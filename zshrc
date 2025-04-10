@@ -15,7 +15,6 @@ export VISUAL='nvim'
 # RC File: VIM
 export MYVIMRC=~/.vimrc
 
-
 # Aliases: k8s
 alias kubectl='kubecolor --kubecolor-theme=light'
 alias k=kubectl
@@ -39,6 +38,7 @@ alias zel='zellij'
 alias p='pulumi'
 alias sed="gsed"
 alias gi='git'
+alias mate='zed'
 
 # k8s
 # Completition
