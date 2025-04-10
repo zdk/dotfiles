@@ -39,22 +39,23 @@ alias sed="gsed"
 alias gi='git'
 alias mate='zed'
 
-# k8s
-# Completition
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
+# Brew shellenv
+if [[ -e "/opt/homebrew/bin/brew" ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
-# krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # k3s
 kubeconfig-k3s() {
   export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 }
 
-# Brew shellenv
-if [[ -e "/opt/homebrew/bin/brew" ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
+# kubectl completion
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
 fi
+
+# Path: k8s krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Path: Go
 export GOPATH=$HOME/go
@@ -65,7 +66,6 @@ export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 
 # Path: Ruby
-
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 # For compilers
 export LDFLAGS="-L/opt/homebrew/opt/ruby/lib"
@@ -76,9 +76,9 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/ruby/lib/pkgconfig"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# Dotnet
-export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
-
+# # Dotnet
+# export DOTNET_ROOT="/opt/homebrew/opt/dotnet/libexec"
+#
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
@@ -92,9 +92,9 @@ fi
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 
-###########
-# Functions
-###########
+# ###########
+# # Functions
+# ###########
 
 
 encrypt() {
@@ -277,11 +277,6 @@ k-api() {
 
 # Path: SSH Agent
 export SSH_AUTH_SOCK=~/.1password/agent.sock
-
-# Path: NVM
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Path: Python
 export PATH="$HOME/.pyenv/shims:$PATH"
