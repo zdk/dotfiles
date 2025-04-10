@@ -15,9 +15,8 @@ export VISUAL='nvim'
 # RC File: VIM
 export MYVIMRC=~/.vimrc
 
-# Aliases: k8s
-alias kubectl='kubecolor --kubecolor-theme=light'
-alias k=kubectl
+# Aliases: Kubernetes
+alias k='kubecolor --kubecolor-theme=light'
 
 # Aliases: misc
 alias tf='terraform'
@@ -274,9 +273,12 @@ k-api() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
 [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
-
 [ -f /opt/homebrew/bin/fzf ] && source <(fzf --zsh)
 
+# Path: SSH Agent
+export SSH_AUTH_SOCK=~/.1password/agent.sock
+
+# Path: NVM
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -291,7 +293,6 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 
-source <(kubectl completion zsh)
 
 if [[ "$(uname)" == "Darwin" ]]; then
   source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
