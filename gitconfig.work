@@ -1,6 +1,6 @@
 [user]
   name = Warachet Samtalee
-  email = warachet.s@linecorp.com
+  email = warachet.s
   signingkey = ssh-ed25519
 
 [commit]
