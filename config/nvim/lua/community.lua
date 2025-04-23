@@ -19,7 +19,6 @@ return {
   { import = "astrocommunity.pack.go" },
   { import = "astrocommunity.pack.ruby" },
   { import = "astrocommunity.pack.typescript" },
-  { import = "astrocommunity.pack.cs" },
   -- code runner
   { import = "astrocommunity.code-runner.sniprun" },
   -- editing support
