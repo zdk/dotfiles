@@ -112,76 +112,123 @@ return {
     },
   },
   {
-    "cenk1cenk2/schema-companion.nvim",
-    dependencies = {
+    "someone-stole-my-name/yaml-companion.nvim",
+    requires = {
+      { "neovim/nvim-lspconfig" },
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope.nvim" },
     },
     config = function()
-      require("schema-companion").setup {
-        -- if you have telescope you can register the extension
-        enable_telescope = true,
-        matchers = {
-          -- add your matchers
-          require("schema-companion.matchers.kubernetes").setup { version = "master" },
+      local cfg = require("yaml-companion").setup {
+        -- detect k8s schemas based on file content
+        builtin_matchers = {
+          kubernetes = { enabled = true },
         },
-      }
-    end,
-  },
-  {
-    "b0o/SchemaStore.nvim",
-    lazy = true,
-    dependencies = {
-      {
-        "AstroNvim/astrolsp",
-        optional = true,
-        ---@type AstroLSPOpts
-        opts = {
-          ---@diagnostic disable: missing-fields
-          config = {
-            yamlls = {
-              on_new_config = function(config)
-                config.settings.yaml.schemas = vim.tbl_deep_extend(
-                  "force",
-                  config.settings.yaml.schemas or {},
-                  require("schemastore").yaml.schemas()
-                )
-              end,
-              -- settings = { yaml = { schemaStore = { enable = true, url = "" } } },
-              settings = {
-                schemaStore = {
-                  enable = true,
-                  url = "https://www.schemastore.org/api/json/catalog.json",
-                },
-                yaml = {
-                  format = {
-                    enable = true,
-                    singleQuote = true,
-                    printWidth = 120,
-                  },
-                  hover = true,
-                  completion = true,
-                  validate = true,
-                  schemas = {
-                    ["https://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
-                    ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
-                    ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-                    ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
-                    ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
-                    ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
-                    ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
-                    ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
-                    ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
-                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "/*argocd_app.yaml",
-                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/applicationset_v1alpha1.json"] = "/*argocd_appset.yaml",
-                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/appproject_v1alpha1.json"] = "/*argocd_project.yaml",
-                  },
+
+        -- schemas available in Telescope picker
+        schemas = {
+          -- not loaded automatically, manually select with
+          -- :Telescope yaml_schema
+          {
+            name = "Argo CD Application",
+            uri = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json",
+          },
+          {
+            name = "SealedSecret",
+            uri = "https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/bitnami.com/sealedsecret_v1alpha1.json",
+          },
+          -- schemas below are automatically loaded, but added
+          -- them here so that they show up in the statusline
+          {
+            name = "Kustomization",
+            uri = "https://json.schemastore.org/kustomization.json",
+          },
+          {
+            name = "GitHub Workflow",
+            uri = "https://json.schemastore.org/github-workflow.json",
+          },
+        },
+
+        lspconfig = {
+          settings = {
+            yaml = {
+              validate = true,
+              schemaStore = {
+                enable = false,
+                url = "",
+              },
+
+              -- schemas from store, matched by filename
+              -- loaded automatically
+              schemas = require("schemastore").yaml.schemas {
+                select = {
+                  "kustomization.yaml",
+                  "GitHub Workflow",
                 },
               },
             },
           },
         },
-      },
-    },
+      }
+
+      require("lspconfig")["yamlls"].setup(cfg)
+      require("telescope").load_extension "yaml_schema"
+    end,
   },
+  -- {
+  --   "b0o/SchemaStore.nvim",
+  --   lazy = true,
+  --   dependencies = {
+  --     {
+  --       "AstroNvim/astrolsp",
+  --       optional = true,
+  --       ---@type AstroLSPOpts
+  --       opts = {
+  --         ---@diagnostic disable: missing-fields
+  --         config = {
+  --           yamlls = {
+  --             on_new_config = function(config)
+  --               config.settings.yaml.schemas = vim.tbl_deep_extend(
+  --                 "force",
+  --                 config.settings.yaml.schemas or {},
+  --                 require("schemastore").yaml.schemas()
+  --               )
+  --             end,
+  --             -- settings = { yaml = { schemaStore = { enable = true, url = "" } } },
+  --             settings = {
+  --               schemaStore = {
+  --                 enable = true,
+  --                 url = "https://www.schemastore.org/api/json/catalog.json",
+  --               },
+  --               yaml = {
+  --                 format = {
+  --                   enable = true,
+  --                   singleQuote = true,
+  --                   printWidth = 120,
+  --                 },
+  --                 hover = true,
+  --                 completion = true,
+  --                 validate = true,
+  --                 schemas = {
+  --                   ["https://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
+  --                   ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
+  --                   ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+  --                   ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
+  --                   ["http://json.schemastore.org/chart"] = "Chart.{yml,yaml}",
+  --                   ["https://json.schemastore.org/dependabot-v2"] = ".github/dependabot.{yml,yaml}",
+  --                   ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
+  --                   ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
+  --                   ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
+  --                   ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "/*argocd_app.yaml",
+  --                   ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/applicationset_v1alpha1.json"] = "/*argocd_appset.yaml",
+  --                   ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/appproject_v1alpha1.json"] = "/*argocd_project.yaml",
+  --                 },
+  --               },
+  --             },
+  --           },
+  --         },
+  --       },
+  --     },
+  --   },
+  -- },
 }
