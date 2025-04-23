@@ -112,6 +112,23 @@ return {
     },
   },
   {
+    "cenk1cenk2/schema-companion.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      { "nvim-telescope/telescope.nvim" },
+    },
+    config = function()
+      require("schema-companion").setup {
+        -- if you have telescope you can register the extension
+        enable_telescope = true,
+        matchers = {
+          -- add your matchers
+          require("schema-companion.matchers.kubernetes").setup { version = "master" },
+        },
+      }
+    end,
+  },
+  {
     "b0o/SchemaStore.nvim",
     lazy = true,
     dependencies = {
@@ -146,7 +163,7 @@ return {
                   completion = true,
                   validate = true,
                   schemas = {
-                    kubernetes = "*.yaml",
+                    ["https://json.schemastore.org/kustomization.json"] = "kustomization.{yml,yaml}",
                     ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*",
                     ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
                     ["http://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
@@ -155,6 +172,9 @@ return {
                     ["https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/schemas/v3.1/schema.json"] = "*api*.{yml,yaml}",
                     ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "*docker-compose*.{yml,yaml}",
                     ["https://raw.githubusercontent.com/argoproj/argo-workflows/master/api/jsonschema/schema.json"] = "*flow*.{yml,yaml}",
+                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/application_v1alpha1.json"] = "/*argocd_app.yaml",
+                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/applicationset_v1alpha1.json"] = "/*argocd_appset.yaml",
+                    ["https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/argoproj.io/appproject_v1alpha1.json"] = "/*argocd_project.yaml",
                   },
                 },
               },
