@@ -1,3 +1,6 @@
+autoload -Uz compinit
+compinit
+
 # ZPrezto init
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
