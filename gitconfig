@@ -1,7 +1,7 @@
 [user]
 	name = zdk
 	email = di.warachet@gmail.com
-	signingkey = C3AB86669AD76343CAC1B65CB24BB7C6C779EE2B
+	signingkey = 0D4AD38780CF7B9AD897281DEBE298F7AF155F12
 [core]
 	editor = nvim
 [alias]
