@@ -7,7 +7,7 @@ function link_dot () {
 }
 
 # Add any dot file
-files=('zshrc' 'zpreztorc')
+files=('zshrc' 'zpreztorc' 'config')
 
 echo "Linking..."
 setopt EXTENDED_GLOB
