@@ -16,8 +16,8 @@ for f in $files; do
 done
 echo "Done!"
 
-# Install astro neovim
-# ./install-astronvim.sh
 
-# Alacrity theme
-# git submodule update --init --recursive
+# Install astro neovim
+brew install node golang ruby
+./install-astronvim.sh
+nvim -c 'AstroUpdate' -c 'quit'
