@@ -17,7 +17,10 @@ done
 echo "Done!"
 
 
+# Install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew bundle --file=./Brewfile
+
 # Install astro neovim
-brew install node golang ruby
 ./install-astronvim.sh
 nvim -c 'AstroUpdate' -c 'quit'
