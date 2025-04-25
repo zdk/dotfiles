@@ -52,10 +52,18 @@ kubeconfig-k3s() {
   export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 }
 
+# kubectl
+kubeconfig-flava-thdata-dev() {
+  export KUBECONFIG=$HOME/.kube/thdata-dev.yaml
+}
+
 # kubectl completion
 if [ $commands[kubectl] ]; then
   source <(kubectl completion zsh)
 fi
+
+# kpt runtime
+export KPT_FN_RUNTIME=podman
 
 # Path: k8s krew
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
