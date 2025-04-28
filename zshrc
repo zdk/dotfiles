@@ -287,7 +287,7 @@ k-api() {
 [ -f /opt/homebrew/bin/fzf ] && source <(fzf --zsh)
 
 # Path: SSH Agent
-export SSH_AUTH_SOCK=~/.1password/agent.sock
+# export SSH_AUTH_SOCK=~/.1password/agent.sock
 
 # Path: Python
 export PATH="$HOME/.pyenv/shims:$PATH"

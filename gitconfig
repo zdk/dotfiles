@@ -17,5 +17,5 @@
 [commit]
 	gpgsign = true
 
-[includeIf "gitdir:~/Developer/src/work"]
-  path = ~/Developer/src/work
+[includeIf "gitdir:~/Developer/src/work/"]
+    path = ~/.gitconfig-work
