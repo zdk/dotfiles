@@ -11,7 +11,6 @@ return {
   { import = "astrocommunity.motion.mini-surround" },
   -- pack (base)
   { import = "astrocommunity.pack.html-css" },
-  { import = "astrocommunity.pack.yaml" },
   -- pack
   { import = "astrocommunity.pack.bash" },
   { import = "astrocommunity.pack.lua" },
