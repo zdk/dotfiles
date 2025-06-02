@@ -7,7 +7,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Bindkey
-bindkey '^R' history-incremental-search-backward  #ok
+bindkey '^R' history-incremental-search-backward #ok
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 
@@ -72,7 +72,6 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export GOPATH=$HOME/go
 export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:$PATH
 
-
 # Path: Rust
 export PATH=$HOME/.cargo/bin:$PATH
 
@@ -94,7 +93,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # rbenv
-if type rbenv > /dev/null; then
+if type rbenv >/dev/null; then
   export PATH="$HOME/.rbenv/bin:$PATH"
   eval "$(rbenv init -)"
 fi
@@ -102,11 +101,9 @@ fi
 # Path: Brew package manager
 [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-
 # ###########
 # # Functions
 # ###########
-
 
 encrypt() {
   openssl aes-256-cbc -a -salt -in $1 -out $2
@@ -133,21 +130,20 @@ debug-sni-request() {
 }
 
 killport() {
-  while test $# -gt 0
-  do
-      port_number=$1
-      pid=$(lsof -P | grep ':'$port_number'[[:space:]](LISTEN)' | awk '{print $2}')
-      if ! kill -QUIT $pid > /dev/null 2>&1; then
-        echo -e "\e[0;31mNo process running\e[0m $port_number port" >&2
-      else
-        echo -e "Kill $port_number \e[0;32msuccessfully\e[0m"
-      fi
-      shift
+  while test $# -gt 0; do
+    port_number=$1
+    pid=$(lsof -P | grep ':'$port_number'[[:space:]](LISTEN)' | awk '{print $2}')
+    if ! kill -QUIT $pid >/dev/null 2>&1; then
+      echo -e "\e[0;31mNo process running\e[0m $port_number port" >&2
+    else
+      echo -e "Kill $port_number \e[0;32msuccessfully\e[0m"
+    fi
+    shift
   done
 }
 
 lsport() {
-   sudo lsof -nP -i4TCP | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
+  sudo lsof -nP -i4TCP | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
 }
 
 delete-git-branch() {
@@ -155,22 +151,21 @@ delete-git-branch() {
   git push origin --delete $1
 }
 
-
-checksum () {
+checksum() {
   if [[ $1 = 'md5' ]]; then
-      md5 $2
+    md5 $2
   elif [[ $1 = 'sha1' ]]; then
-      shasum -a 1 $2
+    shasum -a 1 $2
   elif [[ $1 = 'sha256' ]]; then
-      shasum -a 256 $2
+    shasum -a 256 $2
   else
-      print "Unknown type: $1"
-      return 1
+    print "Unknown type: $1"
+    return 1
   fi
 }
 
 whatismyip() {
-  curl -Ls "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer'| grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
+  curl -Ls "http://api.duckduckgo.com/?q=ip&format=json" | jq '.Answer' | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b"
 }
 
 gen-cert() {
@@ -178,7 +173,7 @@ gen-cert() {
 }
 
 add-ssh-host() {
-  echo -en "\n\nHost $1\n  HostName $2\n  User $3\n IdentityFile $4" >> ~/.ssh/config
+  echo -en "\n\nHost $1\n  HostName $2\n  User $3\n IdentityFile $4" >>~/.ssh/config
 }
 
 show-ssh-hosts() {
@@ -193,7 +188,7 @@ cpu-cores() {
   sysctl -n hw.ncpu
 }
 
-cpu-generation(){
+cpu-generation() {
   sysctl -n machdep.cpu.brand_string
 }
 
@@ -210,7 +205,9 @@ view-ssl-remote-cert() {
 }
 
 join-by() {
-  local IFS="$1"; shift; echo "$*";
+  local IFS="$1"
+  shift
+  echo "$*"
 }
 
 cdls() {
@@ -219,34 +216,37 @@ cdls() {
 
 cdmk() {
   if [[ "$#" -ne 1 ]]; then
-      echo "Usage: $0 <directory>"
-      exit 1
+    echo "Usage: $0 <directory>"
+    exit 1
   fi
   TARGET_DIR=$1
   if [[ -d "$TARGET_DIR" ]]; then
     cd $TARGET_DIR || { return 1; }
   else
-      read "CONFIRM?Do you want to create a new directory in '$TARGET_DIR'? (yes/no): "
-      if [[ "$CONFIRM" == "yes" ]]; then
-          mkdir -p "$TARGET_DIR"
-          if [[ $? -eq 0 ]]; then
-              echo "'$TARGET_DIR' created."
-              cd "$TARGET_DIR" || { echo "Failed to change directory to '$TARGET_DIR'"; return 1; }
-          else
-              echo "Failed to create directory '$TARGET_DIR'"
-              return 1
-          fi
+    read "CONFIRM?Do you want to create a new directory in '$TARGET_DIR'? (yes/no): "
+    if [[ "$CONFIRM" == "yes" ]]; then
+      mkdir -p "$TARGET_DIR"
+      if [[ $? -eq 0 ]]; then
+        echo "'$TARGET_DIR' created."
+        cd "$TARGET_DIR" || {
+          echo "Failed to change directory to '$TARGET_DIR'"
+          return 1
+        }
       else
-          echo "Directory creation aborted."
+        echo "Failed to create directory '$TARGET_DIR'"
+        return 1
       fi
+    else
+      echo "Directory creation aborted."
+    fi
   fi
 }
 
 nodes-ip-k8s() {
-  EXTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}');
-  INTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}');
-  echo "External IP:" $EXTERNAL_IP;
-  echo "Internal IP:" $INTERNAL_IP;
+  EXTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="ExternalIP")].address}')
+  INTERNAL_IP=$(kubectl get node $1 -o jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}')
+  echo "External IP:" $EXTERNAL_IP
+  echo "Internal IP:" $INTERNAL_IP
 }
 
 aws-switch-profile() {
@@ -262,7 +262,7 @@ aws-switch-profile() {
 }
 
 aws-profiles() {
-  profiles=$(aws --no-cli-pager configure list-profiles 2> /dev/null)
+  profiles=$(aws --no-cli-pager configure list-profiles 2>/dev/null)
   if [[ -z "$profiles" ]]; then
     echo "No AWS profiles found in '$HOME/.aws/config"
     return 1
@@ -277,7 +277,69 @@ scan-port() {
 }
 
 k-api() {
- kubectl config view --minify --output jsonpath="{.clusters[*].cluster.server}"
+  kubectl config view --minify --output jsonpath="{.clusters[*].cluster.server}"
+}
+
+list-block-devices() {
+  if [[ "$(uname)" == "Linux" ]]; then
+    lsblk -o NAME,SIZE,TYPE,MOUNTPOINT | grep -E 'disk|part'
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    diskutil list
+  else
+    echo "Unsupported OS: $(uname)"
+    return 1
+  fi
+}
+
+unmount-device() {
+  if [[ $# -ne 1 ]]; then
+    echo "Usage: unmount_device <device>"
+    return 1
+  fi
+
+  DEVICE=$1
+  case "$(uname)" in
+  Linux)
+    if ! umount "$DEVICE" 2>/dev/null; then
+      echo "Failed to unmount device '$DEVICE'."
+      return 1
+    fi
+    ;;
+  Darwin)
+    if ! diskutil unmountDisk "$DEVICE" 2>/dev/null; then
+      echo "Failed to unmount device '$DEVICE'."
+      return 1
+    fi
+    ;;
+  *)
+    echo "Unsupported OS: $(uname)"
+    return 1
+    ;;
+  esac
+}
+
+burn-image() {
+  if [[ $# -ne 2 ]]; then
+    echo "Usage: burn_image <iso_image_path> <device>"
+    return 1
+  fi
+
+  IMAGE_PATH=$1
+  DEVICE=$2
+
+  umount_device "$DEVICE"
+
+  if [[ ! -f $IMAGE_PATH ]]; then
+    echo "Image file '$IMAGE_PATH' does not exist."
+    return 1
+  fi
+
+  if [[ ! -b $DEVICE ]]; then
+    echo "Device '$DEVICE' is not a block device."
+    return 1
+  fi
+
+  sudo dd if="$IMAGE_PATH" of="$DEVICE" bs=4096 status=progress && sync
 }
 
 # Source files
@@ -298,7 +360,6 @@ export PATH="/opt/nvim-linux64/bin:$PATH"
 export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
-
 
 if [[ "$(uname)" == "Darwin" ]]; then
   source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
