@@ -327,7 +327,7 @@ burn-image() {
   IMAGE_PATH=$1
   DEVICE=$2
 
-  umount_device "$DEVICE"
+  unmount-device "$DEVICE"
 
   if [[ ! -f $IMAGE_PATH ]]; then
     echo "Image file '$IMAGE_PATH' does not exist."
