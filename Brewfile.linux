@@ -1,0 +1,8 @@
+tap "zdk/tools"
+brew "bash"
+brew "fzf"
+brew "neovim"
+brew "starship"
+brew "xclip"
+brew "zsh"
+brew "zdk/tools/distrowat"
