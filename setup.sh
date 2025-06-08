@@ -10,6 +10,8 @@ function unlink_dot () {
   rm -f "${ZDOTDIR:-$HOME}/.${1}"
 }
 
+./install-zprezto.sh
+
 # Add any dot file
 files=('zshrc' 'zpreztorc' 'config')
 
