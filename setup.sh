@@ -18,24 +18,10 @@ backup_file() {
     [[ -f "$1" && ! -L "$1" ]] && mv "$1" "$1.backup.$(date +%s)"
 }
 
-<<<<<<< HEAD
-function unlink_dot () {
+unlink_dot () {
   rm -f "${ZDOTDIR:-$HOME}/.${1}"
 }
 
-./install-zprezto.sh
-
-# Add any dot file
-files=('zshrc' 'zpreztorc' 'config')
-
-echo "Linking..."
-setopt EXTENDED_GLOB
-for f in $files; do
-  unlink_dot "$f"
-  link_dot "$f"
-done
-echo "Done!"
-=======
 link_dotfile() {
     local source="$SCRIPT_DIR/$1"
     local target="${ZDOTDIR:-$HOME}/.$1"
@@ -55,7 +41,6 @@ install_homebrew() {
     # Add to PATH on Apple Silicon
     [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 }
->>>>>>> 306b07b (update setup.sh script)
 
 install_astronvim() {
     if [[ -x "$SCRIPT_DIR/install-astro.sh" ]]; then
