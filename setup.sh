@@ -53,13 +53,13 @@ install_astronvim() {
 }
 
 install(){
- name ="$1"
-  if [[ -x "$SCRIPT_DIR/install_$name.sh" ]]; then
-          log "Installing $name..."
-          "$SCRIPT_DIR/$name"
-      else
-          warn "Installation script for $name not found, skipping."
-      fi
+    name ="$1"
+    if [[ -x "$SCRIPT_DIR/install_$name.sh" ]]; then
+        log "Installing $name..."
+        "$SCRIPT_DIR/$name"
+    else
+        warn "Installation script for $name not found, skipping."
+    fi
 }
 
 main() {
