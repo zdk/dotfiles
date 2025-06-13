@@ -1,50 +1,11 @@
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
-if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
-    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
-        print -P "%F{33} %F{34}Installation successful.%f%b" || \
-        print -P "%F{160} The clone has failed.%f%b"
-fi
-
-source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-
-# Load a few important annexes, without Turbo
-# (this is currently required for annexes)
-zinit light-mode for \
-    zdharma-continuum/zinit-annex-as-monitor \
-    zdharma-continuum/zinit-annex-bin-gem-node \
-    zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-rust
-
-### End of Zinit's installer chunk
-
-compinit
-
-# Load powerlevel10k theme
-zinit ice depth"1" # git clone depth
-zinit light romkatv/powerlevel10k
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-zinit wait lucid light-mode for \
-  atinit"zicompinit; zicdreplay" \
-      zdharma-continuum/fast-syntax-highlighting \
-  atload"_zsh_autosuggest_start" \
-      zsh-users/zsh-autosuggestions \
-  blockf atpull'zinit creinstall -q .' \
-      zsh-users/zsh-completions
-
 # Bindkey
 bindkey '^R' history-incremental-search-backward #ok
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
+
+# Editor: VIM
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 # RC File: VIM
 export MYVIMRC=~/.vimrc
@@ -72,6 +33,8 @@ alias p='pulumi'
 alias sed="gsed"
 alias gi='git'
 alias mate='zed'
+alias k9='k9s'
+alias calicoctl='calicoctl --allow-version-mismatch'
 
 # Brew shellenv
 if [[ -e "/opt/homebrew/bin/brew" ]]; then
@@ -311,68 +274,6 @@ k-api() {
   kubectl config view --minify --output jsonpath="{.clusters[*].cluster.server}"
 }
 
-list-block-devices() {
-  if [[ "$(uname)" == "Linux" ]]; then
-    lsblk -o NAME,SIZE,TYPE,MOUNTPOINT | grep -E 'disk|part'
-  elif [[ "$(uname)" == "Darwin" ]]; then
-    diskutil list
-  else
-    echo "Unsupported OS: $(uname)"
-    return 1
-  fi
-}
-
-unmount-device() {
-  if [[ $# -ne 1 ]]; then
-    echo "Usage: unmount_device <device>"
-    return 1
-  fi
-
-  DEVICE=$1
-  case "$(uname)" in
-  Linux)
-    if ! umount "$DEVICE" 2>/dev/null; then
-      echo "Failed to unmount device '$DEVICE'."
-      return 1
-    fi
-    ;;
-  Darwin)
-    if ! diskutil unmountDisk "$DEVICE" 2>/dev/null; then
-      echo "Failed to unmount device '$DEVICE'."
-      return 1
-    fi
-    ;;
-  *)
-    echo "Unsupported OS: $(uname)"
-    return 1
-    ;;
-  esac
-}
-
-burn-image() {
-  if [[ $# -ne 2 ]]; then
-    echo "Usage: burn_image <iso_image_path> <device>"
-    return 1
-  fi
-
-  IMAGE_PATH=$1
-  DEVICE=$2
-
-  unmount-device "$DEVICE"
-
-  if [[ ! -f $IMAGE_PATH ]]; then
-    echo "Image file '$IMAGE_PATH' does not exist."
-    return 1
-  fi
-
-  if [[ ! -b $DEVICE ]]; then
-    echo "Device '$DEVICE' is not a block device."
-    return 1
-  fi
-
-  sudo dd if="$IMAGE_PATH" of="$DEVICE" bs=4096 status=progress && sync
-}
-
 # Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
@@ -399,5 +300,6 @@ fi
 
 #. "$HOME/.deno/env"
 export AWS_DEFAULT_REGION=ap-southeast-1
-=======
-source ~/.zshrc.local
+
+# RM Hook - Safe rm command
+source "/Users/warachet/.rm-hook"
