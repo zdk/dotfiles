@@ -38,8 +38,13 @@ install_homebrew() {
     log "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     
-    # Add to PATH on Apple Silicon
-    [[ "$(uname -m)" == "arm64" ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+    if uname -s | grep -q 'Linux'; then
+        eval "$(/usr/local/bin/brew shellenv)"
+        [[ -f "$SCRIPT_DIR/Brewfile" ]] && brew bundle --file="$SCRIPT_DIR/Brewfile.linux" || warn "Brewfile for Linux not found, skipping."
+    else
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        [[ -f "$SCRIPT_DIR/Brewfile" ]] && brew bundle --file="$SCRIPT_DIR/Brewfile" || warn "Brewfile not found, skipping."
+    fi
 }
 
 install_astronvim() {
@@ -65,20 +70,15 @@ install(){
 main() {
     log "Starting setup..."
 
-    # homebrew setup
     install "homebrew"
-    [[ -f "$SCRIPT_DIR/Brewfile" ]] && brew bundle --file="$SCRIPT_DIR/Brewfile"
-    
-    # Link dotfiles
+    install "astronvim"
+
     setopt EXTENDED_GLOB
     for file in $DOTFILES; do
         link_dotfile "$file"
     done
-    
-    # neovim setup
-    install "astronvim"
 
-    log "Setup complete! Restart your shell or run: source ~/.zshrc"
+    log "Setup complete!"
 }
 
 main "$@"
