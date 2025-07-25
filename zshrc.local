@@ -34,12 +34,24 @@ alias sed="gsed"
 alias gi='git'
 alias mate='zed'
 alias k9='k9s'
+alias kuz='kustomize'
 alias calicoctl='calicoctl --allow-version-mismatch'
+alias gst='git status'
+alias diff='difft'
+#alias docker='podman'
 
 # Brew shellenv
 if [[ -e "/opt/homebrew/bin/brew" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
+
+image-arch() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: image-arch <image-name>"
+    return 1
+  fi
+  docker image inspect "$1" --format '{{.Os}}/{{.Architecture}}'
+}
 
 # k3s
 kubeconfig-k3s() {
@@ -277,13 +289,13 @@ k-api() {
 # Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
-[ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
+# [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
 [ -f /opt/homebrew/bin/fzf ] && source <(fzf --zsh)
 
-# Path: SSH Agent
+# SSH Agent
 # export SSH_AUTH_SOCK=~/.1password/agent.sock
 
-# Path: Python
+# Path
 export PATH="$HOME/.pyenv/shims:$PATH"
 export PATH="/Users/zdk/.local/bin:$PATH"
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
@@ -292,14 +304,14 @@ export PATH="/opt/nvim-linux64/bin:$PATH"
 export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/go/bin:/opt/homebrew/opt/openjdk/bin:$PATH"
 
-if [[ "$(uname)" == "Darwin" ]]; then
-  source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
-  PS1='$(kube_ps1)'$PS1
-fi
+#if [[ "$(uname)" == "Darwin" ]]; then
+#  source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
+#  PS1='$(kube_ps1)'$PS1
+#fi
 
 #. "$HOME/.deno/env"
 export AWS_DEFAULT_REGION=ap-southeast-1
-
-# RM Hook - Safe rm command
-source "/Users/warachet/.rm-hook"
+export KPT_FN_RUNTIME=docker
+export GPG_TTY=$(tty)
