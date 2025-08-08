@@ -1,4 +1,10 @@
 root = true
+
+[*]
+trim_trailing_whitespace = true
+insert_final_newline = true
+end_of_line = lf
+
 [**.js]
 path=~/.vim/bundle/js-beautify/js/lib/beautify.js
 bin=node
