@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+for context in $(kubectl config get-contexts -o name); do
+  echo "Testing context: $context"
+  if ! kubectl --context=$context get nodes --request-timeout=5s &>/dev/null; then
+    echo "  ✗ Context $context is unreachable"
+    read -p "  Delete this context? (y/N): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+      kubectl config delete-context "$context"
+      echo "  Deleted: $context"
+    else
+      echo "  Kept: $context"
+    fi
+  else
+    echo "  ✓ Context $context is valid"
+  fi
+done

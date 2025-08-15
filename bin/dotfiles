@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+git -c status.showUntrackedFiles=no --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"

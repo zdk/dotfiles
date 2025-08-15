@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -e          # Exit with any non-zero as error
+set -u          # Unset variables as an error
+set -o pipefail # Pipe fails the whole pipe if any command fails
+
+# pb = paste board
+
+paste() {
+    if isMacOs; then
+        pbpaste
+    else
+        xsel -ob
+    fi
+}
+
+copy() {
+    if isMacOs; then
+        pbcopy
+    else
+        xclip -selection clipboard
+    fi
+}
+
+if [ $# -eq 1 ]; then
+    readlink -f "$1" | xargs echo -n | copy
+elif [ ! -t 0 ]; then
+    copy
+else
+    paste
+fi
