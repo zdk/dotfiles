@@ -1,3 +1,15 @@
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt APPEND_HISTORY         # Don't overwrite history file
+setopt INC_APPEND_HISTORY     # Write to history file immediately
+setopt SHARE_HISTORY          # Share history between all sessions
+setopt EXTENDED_HISTORY       # Write timestamps
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicates first
+setopt HIST_IGNORE_DUPS       # Don't record duplicates
+setopt HIST_FIND_NO_DUPS      # Don't display duplicates in search
+
 # Bindkey
 bindkey '^R' history-incremental-search-backward #ok
 bindkey '^[b' backward-word
@@ -43,6 +55,11 @@ alias diff='difft'
 # Brew shellenv
 if [[ -e "/opt/homebrew/bin/brew" ]]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
+# Ruby RV
+if [[ -e "/opt/homebrew/bin/rv" ]]; then
+  eval "$(rv shell init zsh)"
 fi
 
 image-arch() {
@@ -286,10 +303,10 @@ k-api() {
   kubectl config view --minify --output jsonpath="{.clusters[*].cluster.server}"
 }
 
-# Source files
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_CTRL_R_OPTS="--no-sort --exact"
+
 [ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
-# [ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
 [ -f /opt/homebrew/bin/fzf ] && source <(fzf --zsh)
 
 # SSH Agent
@@ -305,6 +322,8 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/go/bin:/opt/homebrew/opt/openjdk/bin:$PATH"
+
+export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
 
 #if [[ "$(uname)" == "Darwin" ]]; then
 #  source "/opt/homebrew/opt/kube-ps1/share/kube-ps1.sh"
