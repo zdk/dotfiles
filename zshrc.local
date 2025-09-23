@@ -49,6 +49,7 @@ alias k9='k9s'
 alias kuz='kustomize'
 alias calicoctl='calicoctl --allow-version-mismatch'
 alias gst='git status'
+alias z='zoxide'
 alias diff='difft'
 #alias docker='podman'
 
