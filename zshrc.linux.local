@@ -1,27 +1,12 @@
-autoload -Uz compinit
-compinit
-
-# ZPrezto init
-if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-fi
-
-# Bindkey
-bindkey '^R' history-incremental-search-backward #ok
-bindkey '^[b' backward-word
-bindkey '^[f' forward-word
-
-# Editor: VIM
 export EDITOR='nvim'
 export VISUAL='nvim'
-
-# RC File: VIM
 export MYVIMRC=~/.vimrc
 
-# Aliases: Kubernetes
-alias k='kubecolor --kubecolor-theme=light'
+# Set up fzf key bindings and fuzzy completion
+if [[ ! -f fzf ]]; then
+    source <(fzf --zsh)
+fi
 
-# Aliases: misc
 alias tf='terraform'
 alias ping='prettyping --nolegend'
 alias i='/sbin/ifconfig'
@@ -41,66 +26,6 @@ alias p='pulumi'
 alias sed="gsed"
 alias gi='git'
 alias mate='zed'
-
-export HOMEBREW_PATH=/home/linuxbrew/.linuxbrew/
-# Brew shellenv
-if [[ -e "$HOMEBREW_PATH/bin/brew" ]]; then
-  eval "$($HOMEBREW_PATH/bin/brew shellenv)"
-fi
-
-# k3s
-kubeconfig-k3s() {
-  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
-}
-
-# kubectl
-kubeconfig-flava-thdata-dev() {
-  export KUBECONFIG=$HOME/.kube/thdata-dev.yaml
-}
-
-# kubectl completion
-if [ $commands[kubectl] ]; then
-  source <(kubectl completion zsh)
-fi
-
-# kpt runtime
-export KPT_FN_RUNTIME=podman
-
-# Path: k8s krew
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-# Path: Go
-export GOPATH=$HOME/go
-export PATH=$HOME/bin:$HOME/go/bin:/usr/local/go/bin:$PATH
-
-# Path: Rust
-export PATH=$HOME/.cargo/bin:$PATH
-
-# Path: Ruby
-export PATH="$HOMEBREW_PATH/opt/ruby/bin:$PATH"
-# For compilers
-export LDFLAGS="-L$HOMEBREW_PATH/opt/ruby/lib"
-export CPPFLAGS="-I$HOMEBREW_PATH/opt/ruby/include"
-export PKG_CONFIG_PATH="$HOMEBREW_PATH/opt/ruby/lib/pkgconfig"
-
-# Path: Bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# # Dotnet
-# export DOTNET_ROOT="$HOMEBREW_PATH/opt/dotnet/libexec"
-#
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# rbenv
-if type rbenv >/dev/null; then
-  export PATH="$HOME/.rbenv/bin:$PATH"
-  eval "$(rbenv init -)"
-fi
-
-# Path: Brew package manager
-[ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # ###########
 # # Functions
@@ -343,29 +268,3 @@ burn-image() {
   sudo dd if="$IMAGE_PATH" of="$DEVICE" bs=4096 status=progress && sync
 }
 
-# Source files
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/.zshrc.works ] && source "$HOME/.zshrc.works"
-[ -f ~/.zshrc.local ] && source "$HOME/.zshrc.local"
-[ -f $HOMEBREW_PATH/bin/fzf ] && source <(fzf --zsh)
-
-# Path: SSH Agent
-# export SSH_AUTH_SOCK=~/.1password/agent.sock
-
-# Path: Python
-export PATH="$HOME/.pyenv/shims:$PATH"
-export PATH="/Users/zdk/.local/bin:$PATH"
-export PATH="$HOMEBREW_PATH/opt/curl/bin:$PATH"
-export PATH="$HOME/bin:$PATH"
-export PATH="/opt/nvim-linux64/bin:$PATH"
-export PATH="$HOMEBREW_PATH/opt/gnu-sed/libexec/gnubin:$PATH"
-export PATH="$HOMEBREW_PATH/opt/coreutils/libexec/gnubin:$PATH"
-export PATH="$PATH:$HOME/.local/bin"
-
-if [[ "$(uname)" == "Darwin" ]]; then
-  source "$HOMEBREW_PATH/opt/kube-ps1/share/kube-ps1.sh"
-  PS1='$(kube_ps1)'$PS1
-fi
-
-#. "$HOME/.deno/env"
-export AWS_DEFAULT_REGION=ap-southeast-1
