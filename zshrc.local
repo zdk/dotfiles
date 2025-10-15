@@ -153,22 +153,17 @@ debug-sni-request() {
   curl -k -I --resolve $1:80:$2 https://$1/
 }
 
-killport() {
-  while test $# -gt 0; do
-    port_number=$1
-    pid=$(lsof -P | grep ':'$port_number'[[:space:]](LISTEN)' | awk '{print $2}')
-    if ! kill -QUIT $pid >/dev/null 2>&1; then
-      echo -e "\e[0;31mNo process running\e[0m $port_number port" >&2
-    else
-      echo -e "Kill $port_number \e[0;32msuccessfully\e[0m"
-    fi
-    shift
-  done
+checkport() {
+  port_number="$1"
+  if [[ -z "$port_number" ]]; then
+    echo "Usage: checkport <port-number>"
+    return 1
+  fi
+  sudo lsof -nP -i4TCP:$port_number | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
 }
 
 lsport() {
-  port_number=$1
-  sudo lsof -nP -i4TCP:$port_number | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
+  sudo lsof -nP -i4TCP | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
 }
 
 delete-git-branch() {
