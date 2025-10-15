@@ -167,7 +167,8 @@ killport() {
 }
 
 lsport() {
-  sudo lsof -nP -i4TCP | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
+  port_number=$1
+  sudo lsof -nP -i4TCP:$port_number | grep '(LISTEN)' | awk 'BEGIN{print "Name PID Host:Port"};{print $1 " " $2 " " $9}'
 }
 
 delete-git-branch() {
