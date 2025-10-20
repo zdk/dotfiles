@@ -26,6 +26,8 @@ alias p='pulumi'
 alias sed="gsed"
 alias gi='git'
 alias mate='zed'
+alias xcopy='xclip -selection clipboard'
+alias xpaste='xclip -o -selection clipboard'
 
 # ###########
 # # Functions
