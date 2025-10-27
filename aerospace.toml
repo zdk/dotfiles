@@ -121,12 +121,6 @@ automatically-unhide-macos-hidden-apps = false
     alt-7 = 'workspace 7'
     alt-8 = 'workspace 8'
     alt-9 = 'workspace 9'
-    alt-b = 'workspace B' # for Browser
-    alt-e = 'workspace F' # for Finder
-    alt-n = 'workspace O' # for Obsidian
-    alt-m = 'workspace S' # for Spotify
-    alt-t = 'workspace T' # for Terminal
-    alt-v = 'workspace W' # for WezTerm
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-1 = 'move-node-to-workspace 1'
@@ -138,12 +132,6 @@ automatically-unhide-macos-hidden-apps = false
     alt-shift-7 = 'move-node-to-workspace 7'
     alt-shift-8 = 'move-node-to-workspace 8'
     alt-shift-9 = 'move-node-to-workspace 9'
-    alt-shift-b = 'move-node-to-workspace B'
-    alt-shift-f = 'move-node-to-workspace F'
-    alt-shift-o = 'move-node-to-workspace O'
-    alt-shift-s = 'move-node-to-workspace S'
-    alt-shift-t = 'move-node-to-workspace T'
-    alt-shift-w = 'move-node-to-workspace W'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
     alt-tab = 'workspace-back-and-forth'
