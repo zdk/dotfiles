@@ -25,14 +25,14 @@ export MYVIMRC=~/.vimrc
 # Aliases: Kubernetes
 alias k='kubecolor --kubecolor-theme=light'
 
-# Aliases: misc
+# Aliases: General
 alias tf='terraform'
 alias ping='prettyping --nolegend'
 alias i='/sbin/ifconfig'
 alias cls='clear;ls'
 alias ll='ls -la'
 alias สส='ll'
-alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+#alias du="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 alias help='tldr'
 alias mutt='LC_ALL=en_us.UTF-8 neomutt'
 alias nasm='/usr/local/bin/nasm'
@@ -319,6 +319,7 @@ export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 export PATH="$PATH:$HOME/.local/bin"
 export PATH="$HOME/go/bin:/opt/homebrew/opt/openjdk/bin:$PATH"
+export PATH="$HOME/.tfenv/bin:$PATH"
 
 export GROOVY_HOME=/opt/homebrew/opt/groovy/libexec
 
