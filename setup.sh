@@ -5,7 +5,7 @@ set -euo pipefail
 readonly DOTFILES=('zshrc' 'zshrc.local' 'config')
 
 log() { echo -e "[INFO] $1" }
-warn() { echo -e "[WARN]} $1" }
+warn() { echo -e "[WARN] $1" }
 error() { echo -e "[ERROR] $1" >&2 }
 
 backup_file() {
@@ -19,9 +19,9 @@ unlink_dot () {
 link_dotfile() {
     local source="$1"
     local target="${ZDOTDIR:-$HOME}/.$1"
-    
+
     [[ ! -f "$source" ]] && { error "Missing: $source"; return 1; }
-    
+
     backup_file "$target"
     ln -sf "$source" "$target" && log "Linked $1"
 }
