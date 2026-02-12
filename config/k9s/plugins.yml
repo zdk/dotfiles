@@ -1,0 +1,12 @@
+plugins:
+  helm:
+    shortCut: Ctrl-H
+    description: Helm Charts
+    scopes:
+      - all
+    command: kubectl
+    background: false
+    args:
+      - get
+      - helmreleases
+      - --all-namespaces
