@@ -71,21 +71,28 @@ image-arch() {
   docker image inspect "$1" --format '{{.Os}}/{{.Architecture}}'
 }
 
-# k3s
-kubeconfig-k3s() {
-  export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+# Set KUBECONFIG using the absolute path. p10k's kubecontext segment caches by the literal path string, so relative paths can return stale values
+# Usage: kubeconfig <path>   |  kubeconfig          (show current)  |  kubeconfig -u (unset)
+kubeconfig() {
+  case "$1" in
+  "")
+    echo "KUBECONFIG=${KUBECONFIG:-(unset, using ~/.kube/config)}"
+    return 0
+    ;;
+  -u | --unset)
+    unset KUBECONFIG
+    echo "KUBECONFIG unset"
+    return 0
+    ;;
+  esac
+  [[ -f "$1" ]] || {
+    echo "kubeconfig: file not found: $1" >&2
+    return 1
+  }
+  export KUBECONFIG="${1:A}"
+  echo "KUBECONFIG=$KUBECONFIG"
 }
-
-load-kubeconfig() {
-  local base="$HOME/.kube/config"
-  local local_cfg="$PWD/.kubeconfig"
-
-  if [[ -f "$local_cfg" ]]; then
-    export KUBECONFIG="$local_cfg:$base"
-  else
-    export KUBECONFIG="$base"
-  fi
-}
+alias kc='kubeconfig'
 
 # kubectl completion
 if [ $commands[kubectl] ]; then
