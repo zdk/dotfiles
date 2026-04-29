@@ -24,6 +24,7 @@ export MYVIMRC=~/.vimrc
 
 alias k='kubectl'
 alias b='brew'
+alias htop='btop'
 
 # Aliases: General
 alias tf='terraform'
