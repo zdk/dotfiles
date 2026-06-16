@@ -9,29 +9,35 @@ return {
       },
     },
   },
-  -- customize cmp mappings
+  -- yaml-companion owns yamlls; stop astrolsp from also setting it up
+  -- (double setup leaves yaml-companion's buffer context unregistered).
   {
-    "hrsh7th/nvim-cmp",
-    -- override the options table that is used
-    -- in the `require("cmp").setup()` call
+    "AstroNvim/astrolsp",
+    ---@type AstroLSPOpts
+    opts = { handlers = { yamlls = false } },
+  },
+  -- customize blink.cmp mappings (v6 uses blink.cmp instead of nvim-cmp)
+  {
+    "saghen/blink.cmp",
+    -- pin to v1: `main` is v2, which needs a separate blink.lib plugin + nvim 0.12.
+    -- v1 ships prebuilt fuzzy binaries, no build step needed.
+    version = "1.*",
     opts = function(_, opts)
-      -- opts parameter is the default options table
-      -- the function is lazy loaded so cmp is able to be required
-      local cmp = require "cmp"
-      -- modify the mapping part of the table
-      opts.mapping["<C-x>"] = cmp.mapping.select_next_item()
+      opts.keymap = opts.keymap or {}
+      -- <C-x> selects the next completion item
+      opts.keymap["<C-x>"] = { "select_next", "fallback" }
     end,
   },
 
-  -- customize alpha-nvim
+  -- customize the dashboard (v6 uses snacks.dashboard instead of alpha-nvim)
   {
-    "goolord/alpha-nvim",
-    dependencies = {
-      "nvim-tree/nvim-web-devicons",
-    },
-
+    "folke/snacks.nvim",
     opts = function(_, opts)
-      opts.section.header.val = {
+      local get_icon = require("astroui").get_icon
+      opts.dashboard = opts.dashboard or {}
+      opts.dashboard.preset = opts.dashboard.preset or {}
+      -- custom cat header
+      opts.dashboard.preset.header = table.concat({
         [[ ███████████████████████████ ]],
         [[ ███████▀▀▀░░░░░░░▀▀▀███████ ]],
         [[ ████▀░░░░░░░░░░░░░░░░░▀████ ]],
@@ -50,27 +56,17 @@ return {
         [[ █████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████ ]],
         [[ ███████▄░░░░░░░░░░░▄███████ ]],
         [[ ██████████▄▄▄▄▄▄▄██████████ ]],
+      }, "\n")
+      -- custom buttons (action = the keymap to run)
+      opts.dashboard.preset.keys = {
+        { key = "n", action = "<Leader>n", icon = get_icon("FileNew", 0, true), desc = "New File  " },
+        { key = "w", action = "<Leader>Wo", icon = get_icon("FolderOpen", 0, true), desc = "Workspaces  " },
+        { key = "o", action = "<Leader>fo", icon = get_icon("DefaultFile", 0, true), desc = "Recents  " },
+        { key = "f", action = "<Leader>ff", icon = get_icon("Search", 0, true), desc = "Find File  " },
+        { key = "g", action = "<Leader>fw", icon = get_icon("WordFile", 0, true), desc = "Find Word  " },
+        { key = "s", action = "<Leader>Sl", icon = get_icon("Refresh", 0, true), desc = "Last Session  " },
       }
-      opts.section.header.opts.hl = "DashboardHeader"
-      local get_icon = require("astroui").get_icon
-      local button = require("alpha.themes.dashboard").button
-      opts.section.buttons.val = {
-        button("LDR n  ", get_icon("FileNew", 2, true) .. "New File  "),
-        button("LDR W o", get_icon("FolderOpen", 2, true) .. "Workspaces  "),
-        button("LDR f o", get_icon("DefaultFile", 2, true) .. "Recents  "),
-        button("LDR f f", get_icon("Search", 2, true) .. "Find File  "),
-        button("LDR f w", get_icon("WordFile", 2, true) .. "Find Word  "),
-        button("LDR S l", get_icon("Refresh", 2, true) .. "Last Session  "),
-      }
-      -- opts.section.header.opts.hl = "DashboardFooter"
-      -- local excuse = require "alpha.excuse"
-      -- opts.section.footer.val = excuse()
-      -- opts.config.layout[1].val = vim.fn.max { 2, vim.fn.floor(vim.fn.winheight(0) * 0.2) }
-      -- opts.config.layout[3].val = 5
-      -- opts.config.opts.noautocmd = true
-      return opts
     end,
-    -- config = function(_, opts) require("alpha").setup(opts.config) end,
   },
   {
     "ray-x/go.nvim",

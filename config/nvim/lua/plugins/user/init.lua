@@ -24,8 +24,12 @@ return {
   },
 
   -- == Examples of Overriding Plugins ==
+  -- (dashboard is customized via snacks.dashboard in overridden.lua)
 
-  -- customize alpha options
+  -- You can disable default plugins as follows:
+  { "max397574/better-escape.nvim", enabled = false },
+
+  --[[ alpha-nvim removed in AstroNvim v6 (replaced by snacks.dashboard)
   {
     "goolord/alpha-nvim",
     opts = function(_, opts)
@@ -46,9 +50,7 @@ return {
       return opts
     end,
   },
-
-  -- You can disable default plugins as follows:
-  { "max397574/better-escape.nvim", enabled = false },
+--]]
 
   -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
   {
@@ -108,7 +110,9 @@ return {
 
   {
     "someone-stole-my-name/yaml-companion.nvim",
-    requires = {
+    -- v6 dropped telescope (snacks.picker), but this plugin's schema picker
+    -- needs it, so pull telescope in explicitly as a dependency.
+    dependencies = {
       { "neovim/nvim-lspconfig" },
       { "nvim-lua/plenary.nvim" },
       { "nvim-telescope/telescope.nvim" },
@@ -171,25 +175,19 @@ return {
       }
 
       require("lspconfig")["yamlls"].setup(cfg)
-      require("telescope").load_extension "yaml_schema"
+      -- guard: skip the picker extension if telescope isn't available
+      pcall(function() require("telescope").load_extension "yaml_schema" end)
     end,
   },
 
   {
     "cenk1cenk2/schema-companion.nvim",
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim" },
-    },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    -- NOTE: yaml-companion (above) owns yamlls and does k8s schema matching.
+    -- Schema matching here would require wrapping yamlls via setup_client,
+    -- which conflicts. So we only run the global setup to avoid that clash.
     config = function()
-      require("schema-companion").setup {
-        -- if you have telescope you can register the extension
-        enable_telescope = true,
-        matchers = {
-          -- add your matchers
-          require("schema-companion.matchers.kubernetes").setup { version = "master" },
-        },
-      }
+      require("schema-companion").setup { log_level = vim.log.levels.INFO }
     end,
   },
   -- {
