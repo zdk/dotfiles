@@ -9,8 +9,7 @@ return {
       },
     },
   },
-  -- yaml-companion owns yamlls; stop astrolsp from also setting it up
-  -- (double setup leaves yaml-companion's buffer context unregistered).
+  -- schema-companion owns yamlls; stop astrolsp from also setting it up.
   {
     "AstroNvim/astrolsp",
     ---@type AstroLSPOpts
