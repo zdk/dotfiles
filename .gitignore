@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Editors
+*~
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# setup.sh backups
+*.backup.[0-9]*
+
+# Machine-local overrides, never committed
+zshrc.works
+*.local.private
+local/
+
+# Secrets
+.sops.yaml
+*.age
+*.gpg
+*.key
+*.pem
+secrets/
+
+# Neovim / plugin manager state
+config/nvim*/plugin/
+config/nvim*/.netrwhist
+*.v[0-9]*.bak
