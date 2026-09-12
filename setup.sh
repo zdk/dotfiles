@@ -71,7 +71,13 @@ readonly CHILD_DIRS=(
 )
 
 # Sources that must not be world-readable or their program refuses to start.
-readonly PRIVATE_FILES=(msmtprc offlineimaprc gnupg/gpg-agent.conf)
+readonly PRIVATE_FILES=(
+    msmtprc
+    offlineimaprc
+    gnupg/dirmngr.conf
+    gnupg/gpg-agent.conf
+    gnupg/gpg.conf
+)
 
 # Sources that need the executable bit before they are useful on $PATH.
 readonly EXECUTABLES=(bin/clear-contexts bin/dotfiles bin/pb)
