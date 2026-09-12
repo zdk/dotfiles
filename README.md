@@ -17,6 +17,7 @@ Layout
     attic/       kept for reference, not linked
     imported/    applied by hand through an app
     scripts/     run on demand
+    tests/       ./tests/setup_test.zsh, also run by CI
 
 Paths inside the linked trees mirror `$HOME`, so `home/.gitconfig` becomes
 `~/.gitconfig` and `darwin/.config/raycast/scripts` becomes

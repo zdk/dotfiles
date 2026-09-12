@@ -1,0 +1,57 @@
+name: setup.sh
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    # ubuntu exercises the linux/ overlay, macos the darwin/ one.
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install zsh
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y zsh
+
+      - name: Test
+        run: ./tests/setup_test.zsh
+
+  guardrails:
+    # Cheap checks for the two things that have actually gone wrong here:
+    # committed credentials and committed macOS litter.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No credentials or state committed
+        run: |
+          if git ls-files | grep -E '(^|/)(auth\.db|.*\.(key|pem|age|gpg))$'; then
+            echo "::error::credential or key material is tracked"; exit 1
+          fi
+          echo "none tracked"
+
+      - name: No .DS_Store committed
+        run: |
+          if git ls-files | grep -F '.DS_Store'; then
+            echo "::error::.DS_Store is tracked"; exit 1
+          fi
+          echo "none tracked"
+
+      - name: Ignore rules still cover the paths they name
+        run: |
+          for p in home/.config/nvim/plugin/x.lua \
+                   attic/config/github-copilot/auth.db; do
+            git check-ignore -q "$p" || { echo "::error::$p is not ignored"; exit 1; }
+            echo "ignored: $p"
+          done
