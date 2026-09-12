@@ -65,12 +65,13 @@ readonly CHILD_DIRS=(
     'bin:bin'
     'bundle:.bundle'
     'config:.config'
+    'gnupg:.gnupg'
     'mutt:.mutt'
     'vim:.vim'
 )
 
 # Sources that must not be world-readable or their program refuses to start.
-readonly PRIVATE_FILES=(msmtprc offlineimaprc)
+readonly PRIVATE_FILES=(msmtprc offlineimaprc gnupg/gpg-agent.conf)
 
 # Sources that need the executable bit before they are useful on $PATH.
 readonly EXECUTABLES=(bin/clear-contexts bin/dotfiles bin/pb)
