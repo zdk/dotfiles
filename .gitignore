@@ -36,3 +36,6 @@ secrets/
 config/nvim*/plugin/
 config/nvim*/.netrwhist
 *.v[0-9]*.bak
+
+# Copilot session credentials
+config/github-copilot/auth.db*
