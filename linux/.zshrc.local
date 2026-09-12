@@ -1,6 +1,5 @@
 export EDITOR='nvim'
 export VISUAL='nvim'
-export MYVIMRC=~/.vimrc
 
 # Set up fzf key bindings and fuzzy completion
 if [[ ! -f fzf ]]; then

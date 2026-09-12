@@ -19,9 +19,6 @@ bindkey '^[f' forward-word
 export EDITOR='nvim'
 export VISUAL='nvim'
 
-# RC File: VIM
-export MYVIMRC=~/.vimrc
-
 alias k='kubectl'
 alias b='brew'
 alias htop='btop'
