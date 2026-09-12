@@ -8,7 +8,7 @@
 #
 # Safe to re-run: links that already point at the right place are left alone.
 # Only the software in daily use is linked -- git, gpg, neovim, zsh, wezterm,
-# raycast, homebrew, aerospace.
+# raycast, homebrew, aerospace -- plus the bin/ scripts.
 # Everything else the repo carries is listed under "Deliberately NOT linked".
 
 set -euo pipefail
@@ -67,9 +67,11 @@ readonly LINKS=(
 )
 
 # Directories whose *children* are linked into a real directory, so that
-# $HOME/.gnupg keeps the keyrings and private keys it already holds.
+# $HOME/.gnupg keeps the keyrings and private keys it already holds, and
+# $HOME/bin keeps any script that does not live in this repo.
 #   "<source dir>:<target dir under $HOME>"
 readonly CHILD_DIRS=(
+    'bin:bin'
     'gnupg:.gnupg'
 )
 
@@ -100,9 +102,9 @@ readonly PRUNE_DIRS=(
 #   vim (pre-nvim)     vimrc, vimrc-org, vim/
 #   other config/      alacritty, github-copilot, k9s, neofetch, wireshark,
 #                      zellij
-#   odds and ends      bin/, bundle/, ctags, curlrc, digrc, editorconfig,
-#                      eslintrc, gemrc, inputrc, sops.yaml, terraformrc,
-#                      tmux.conf, urlview
+#   odds and ends      bundle/, ctags, curlrc, digrc, editorconfig, eslintrc,
+#                      gemrc, inputrc, sops.yaml, terraformrc, tmux.conf,
+#                      urlview
 #   .ssh/ssh_config    placeholder full of <IP>/<username>; would clobber a real config
 #   zdotdir/           second, unused zsh framework
 #   iterm2.json        imported through iTerm's preferences pane
