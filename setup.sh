@@ -6,10 +6,17 @@
 #   ./setup.sh --dry-run    print what would change, touch nothing
 #   ./setup.sh --prune      install, then drop links this script no longer makes
 #
+# home/ is a literal image of $HOME: every path under it is linked to the same
+# path in $HOME, so the layout of the repo *is* the mapping and nothing in here
+# rewrites names. darwin/ and linux/ are overlays of the same shape, of which
+# exactly one applies -- that is why both hold a .Brewfile and a .zshrc.local
+# rather than carrying a platform suffix.
+#
+# Everything the repo keeps but does not install lives outside those trees:
+# attic/ is kept for reference, imported/ is applied by hand through an app,
+# scripts/ is run on demand.
+#
 # Safe to re-run: links that already point at the right place are left alone.
-# Only the software in daily use is linked -- git, gpg, neovim, zsh, wezterm,
-# raycast, homebrew, aerospace -- plus the bin/ scripts.
-# Everything else the repo carries is listed under "Deliberately NOT linked".
 
 set -euo pipefail
 
@@ -41,73 +48,42 @@ error() { print -r -- "[ERROR] $1" >&2 }
 did()   { if (( DRY_RUN )); then print -r -- "$1"; else print -r -- "$2"; fi }
 run()   { if (( DRY_RUN )); then return 0; else "$@"; fi }
 
-# Files linked as $HOME/.<name>.
-readonly HOME_FILES=(
-    gitconfig
-    gitmessage
-    zprofile
-    zshrc
-)
+# Trees linked into $HOME, in order. The platform overlay goes last so that it
+# wins if it ever names the same path as home/.
+TREES=(home)
+case "$(uname -s)" in
+    Darwin) TREES+=(darwin) ;;
+    *)      TREES+=(linux) ;;
+esac
+readonly TREES
 
-# Sources whose target path differs. "<source>:<target under $HOME>".
-#   gitconfig.work must land on .gitconfig-work -- that is the path
-#   gitconfig's [includeIf] directive looks for.
-#   The nvim dirs are linked side by side; pick one with NVIM_APPNAME
-#   (NVIM_APPNAME=nvim-nvchad nvim), default nvim otherwise.
-#   Raycast still has to be pointed at the scripts path once, under
-#   Extensions -> Script Commands -> Add Directories. Linking the
-#   directory keeps that registration valid as scripts come and go.
-readonly LINKS=(
-    'gitconfig.work:.gitconfig-work'
-    'config/nvim:.config/nvim'
-    'config/nvim-minimal:.config/nvim-minimal'
-    'config/nvim-nvchad:.config/nvim-nvchad'
-    'config/wezterm:.config/wezterm'
-    'raycast/scripts:.config/raycast/scripts'
-)
-
-# Directories whose *children* are linked into a real directory, so that
-# $HOME/.gnupg keeps the keyrings and private keys it already holds, and
-# $HOME/bin keeps any script that does not live in this repo.
-#   "<source dir>:<target dir under $HOME>"
-readonly CHILD_DIRS=(
-    'bin:bin'
-    'gnupg:.gnupg'
-)
-
-# Sources that must not be world-readable or gpg refuses to start.
-readonly PRIVATE_FILES=(
-    gnupg/dirmngr.conf
-    gnupg/gpg-agent.conf
-    gnupg/gpg.conf
-)
-
-# Directories --prune scans, each one level deep, relative to $HOME. This is
-# every directory the script has ever written a link into, so that entries
-# dropped from the lists above are still found and cleaned up.
-readonly PRUNE_DIRS=(
-    .
-    .bundle
+# Directories that must stay REAL directories in $HOME, linked child by child,
+# because things that are not ours live in them too: .config holds other
+# programs' state, .config/raycast the app's own extensions and cache, .gnupg
+# the keyrings and private keys, bin any script not from this repo.
+#
+# A directory NOT listed here is linked whole, which is what makes a program
+# writing into its own config dir (nvim into .config/nvim) write to the repo.
+readonly REAL_DIRS=(
     .config
     .config/raycast
     .gnupg
-    .mutt
-    .vim
     bin
 )
 
-# Deliberately NOT linked -- still in the repo, just not in daily use:
-#   mail stack         muttrc, mailcap, mutt/, msmtprc, offlineimaprc,
-#                      offlineimap-helpers.py
-#   vim (pre-nvim)     vimrc, vimrc-org, vim/
-#   other config/      alacritty, github-copilot, k9s, neofetch, wireshark,
-#                      zellij
-#   odds and ends      bundle/, ctags, curlrc, digrc, editorconfig, eslintrc,
-#                      gemrc, inputrc, sops.yaml, terraformrc, tmux.conf,
-#                      urlview
-#   .ssh/ssh_config    placeholder full of <IP>/<username>; would clobber a real config
-#   zdotdir/           second, unused zsh framework
-#   iterm2.json        imported through iTerm's preferences pane
+# Directories --prune scans, each one level deep, relative to $HOME. The ones
+# marked historical hold no link today; they are still scanned so that links
+# left by older versions of this script are found and cleaned up.
+readonly PRUNE_DIRS=(
+    .
+    .bundle          # historical
+    .config
+    .config/raycast
+    .gnupg
+    .mutt            # historical
+    .vim             # historical
+    bin
+)
 
 backup_file() {
     local target="$1"
@@ -138,6 +114,12 @@ link() {
         return 0
     fi
 
+    # A broken link into the repo is one of ours from an earlier layout, so
+    # replace it instead of backing up something that points nowhere.
+    if [[ -L "$target" && ! -e "$target" && "$(readlink "$target")" == "$REPO"/* ]]; then
+        run rm "$target"
+    fi
+
     backup_file "$target"
     [[ -d "${target:h}" ]] || run mkdir -p "${target:h}"
     # -n keeps a directory symlink from being replaced *inside* itself.
@@ -146,22 +128,31 @@ link() {
     return 0
 }
 
-link_children() {
-    local src_dir="$REPO/$1" target_dir="$2" child
-    if [[ ! -d "$src_dir" ]]; then
-        error "Missing source directory: $1"
-        return 1
-    fi
-    [[ -d "$TARGET_HOME/$target_dir" ]] || run mkdir -p "$TARGET_HOME/$target_dir"
-    for child in "$src_dir"/*(N); do
-        link "$1/${child:t}" "$target_dir/${child:t}"
+# Walk one tree, linking each entry at the same path under $HOME. Recurses only
+# into REAL_DIRS; everything else is linked as it stands.
+# link_tree <tree> [<path relative to the tree>]
+link_tree() {
+    local tree="$1" rel="${2:-}"
+    local abs="$REPO/$tree${rel:+/$rel}" entry name child
+
+    for entry in "$abs"/*(ND); do
+        name="${entry:t}"
+        [[ "$name" == .DS_Store ]] && continue
+        child="${rel:+$rel/}$name"
+
+        if [[ -d "$entry" ]] && (( ${REAL_DIRS[(Ie)$child]} )); then
+            [[ -d "$TARGET_HOME/$child" ]] || run mkdir -p "$TARGET_HOME/$child"
+            link_tree "$tree" "$child"
+        else
+            link "$tree/$child" "$child"
+        fi
     done
     return 0
 }
 
-# Remove symlinks that point into the repo but are no longer in the lists
-# above. Only absolute links into $REPO are touched: a real file, or a link
-# pointing anywhere else, is never something this script created.
+# Remove symlinks that point into the repo but are no longer part of a tree.
+# Only absolute links into $REPO are touched: a real file, or a link pointing
+# anywhere else, is never something this script created.
 prune_stale() {
     local dir entry raw rel
     for dir in $PRUNE_DIRS; do
@@ -185,35 +176,17 @@ main() {
     (( DRY_RUN )) && log "Dry run -- nothing will be changed."
     log "Repo:   $REPO"
     log "Target: $TARGET_HOME"
+    log "Trees:  $TREES"
     print
 
-    local file pair source target
-    for file in $HOME_FILES; do
-        link "$file" ".$file"
+    local tree file
+    for tree in $TREES; do
+        link_tree "$tree"
     done
 
-    for pair in $LINKS; do
-        link "${pair%%:*}" "${pair#*:}"
-    done
-
-    # Both the local zshrc and the Brewfile come in a mac and a linux
-    # flavour. .Brewfile is the path `brew bundle --global` reads, and
-    # aerospace is a mac-only window manager.
-    if [[ "$(uname -s)" == "Darwin" ]]; then
-        link zshrc.local .zshrc.local
-        link Brewfile .Brewfile
-        link aerospace.toml .aerospace.toml
-    else
-        link zshrc.linux.local .zshrc.local
-        link Brewfile.linux .Brewfile
-    fi
-
-    for pair in $CHILD_DIRS; do
-        link_children "${pair%%:*}" "${pair#*:}"
-    done
-
-    for file in $PRIVATE_FILES; do
-        run chmod 600 "$REPO/$file"
+    # gpg refuses to start if these are group- or world-readable.
+    for file in "$REPO"/home/.gnupg/*(ND.); do
+        run chmod 600 "$file"
     done
 
     if (( PRUNE )); then

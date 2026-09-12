@@ -33,9 +33,10 @@ local/
 secrets/
 
 # Neovim / plugin manager state
-config/nvim*/plugin/
-config/nvim*/.netrwhist
+# Unanchored so they keep matching if the trees are ever moved again.
+**/nvim*/plugin/
+**/nvim*/.netrwhist
 *.v[0-9]*.bak
 
 # Copilot session credentials
-config/github-copilot/auth.db*
+**/github-copilot/auth.db*
