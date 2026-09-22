@@ -34,6 +34,7 @@ zinit ice depth"1" # git clone depth
 zinit light romkatv/powerlevel10k
 
 # Initialize completions early
+[[ -d ~/.docker/completions ]] && fpath=(~/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 
