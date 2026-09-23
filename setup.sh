@@ -60,7 +60,8 @@ readonly TREES
 # Directories that must stay REAL directories in $HOME, linked child by child,
 # because things that are not ours live in them too: .config holds other
 # programs' state, .config/raycast the app's own extensions and cache, .gnupg
-# the keyrings and private keys, bin any script not from this repo.
+# the keyrings and private keys, .pi/agent sessions, auth and other tools'
+# extensions, bin any script not from this repo.
 #
 # A directory NOT listed here is linked whole, which is what makes a program
 # writing into its own config dir (nvim into .config/nvim) write to the repo.
@@ -68,6 +69,9 @@ readonly REAL_DIRS=(
     .config
     .config/raycast
     .gnupg
+    .pi
+    .pi/agent
+    .pi/agent/extensions
     bin
 )
 
@@ -81,6 +85,8 @@ readonly PRUNE_DIRS=(
     .config/raycast
     .gnupg
     .mutt            # historical
+    .pi/agent
+    .pi/agent/extensions
     .vim             # historical
     bin
 )

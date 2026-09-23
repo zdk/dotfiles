@@ -1,0 +1,14 @@
+{
+  "lastChangelogVersion": "0.87.0",
+  "theme": "light",
+  "defaultThinkingLevel": "high",
+  "treeFilterMode": "all",
+  "defaultProvider": "genai-gateway",
+  "defaultModel": "gpt-5.6-luna",
+  "enabledModels": [
+    "genai-gateway/*"
+  ],
+  "packages": [
+    "npm:pi-chrome"
+  ]
+}
