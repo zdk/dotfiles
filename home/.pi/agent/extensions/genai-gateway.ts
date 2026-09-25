@@ -28,8 +28,9 @@ function loadConfig(): GatewayConfig {
 
   try {
     const config = readJson(path) as GatewayConfig;
+    config.baseUrl = process.env[config.baseUrlEnv ?? "GENAI_GATEWAY_BASE_URL"] ?? config.baseUrl;
     if (!config.baseUrl || !Array.isArray(config.models)) {
-      throw new Error("baseUrl and models are required");
+      throw new Error(`baseUrl (or $${config.baseUrlEnv ?? "GENAI_GATEWAY_BASE_URL"}) and models are required`);
     }
     return config;
   } catch (error) {
@@ -67,11 +68,9 @@ export default function (pi: ExtensionAPI) {
   const config = loadConfig();
   const aliases = config.aliases ?? {};
 
-  const baseUrl = process.env[config.baseUrlEnv ?? "GENAI_GATEWAY_BASE_URL"] ?? config.baseUrl;
-
   pi.registerProvider("genai-gateway", {
     name: config.name ?? "GenAI Gateway",
-    baseUrl,
+    baseUrl: config.baseUrl,
     apiKey: apiKey(config),
     api: config.api ?? "openai-responses",
     models: config.models.map((id) => model(id, aliases)),
