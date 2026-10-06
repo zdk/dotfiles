@@ -1,0 +1,20 @@
+{
+  "name": "GenAI Gateway (dev)",
+  "baseUrlEnv": "GENAI_GATEWAY_BASE_URL",
+  "api": "openai-responses",
+  "apiKeyEnv": "GENAI_GATEWAY_PAT",
+  "models": [
+    "gpt-6-astra",
+    "gpt-5.6-sol",
+    "gpt-5.6-terra",
+    "gpt-5.6-luna",
+    "gpt-5.5-pro",
+    "gpt-5.5",
+    "gpt-5.3-codex",
+    "codex-auto-review"
+  ],
+  "aliases": {
+    "gpt-instant": "gpt-5.4-nano",
+    "codex-auto-review": "gpt-5.6-luna"
+  }
+}

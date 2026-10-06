@@ -68,6 +68,8 @@ typeset -a COMMON=(
     '.zprofile:home/.zprofile'
     '.config/nvim:home/.config/nvim'
     '.gnupg/gpg.conf:home/.gnupg/gpg.conf'
+    '.pi/agent/settings.json:home/.pi/agent/settings.json'
+    '.pi/agent/extensions/genai-gateway.ts:home/.pi/agent/extensions/genai-gateway.ts'
     'bin/pb:home/bin/pb'
 )
 if [[ "$(uname -s)" == Darwin ]]; then
