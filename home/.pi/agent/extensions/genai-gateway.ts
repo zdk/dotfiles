@@ -42,8 +42,6 @@ function apiKey(config: GatewayConfig): string {
   return process.env[config.apiKeyEnv ?? "GENAI_GATEWAY_PAT"] ?? "";
 }
 
-// Reuse Pi's model-specific limits and thinking controls, not one GPT-5
-// profile for every model. This only reads the bundled catalog (no network).
 const metadata = new Map(getBuiltinModels("openai").map((m) => [m.id, m]));
 
 function model(id: string, aliases: Record<string, string>) {
@@ -57,7 +55,6 @@ function model(id: string, aliases: Record<string, string>) {
     reasoning: source.reasoning,
     thinkingLevelMap: source.thinkingLevelMap,
     input: source.input,
-    // Gateway prices are not supplied by the support table; zero means unknown.
     cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
     contextWindow: source.contextWindow,
     maxTokens: source.maxTokens,
